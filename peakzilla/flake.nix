@@ -16,7 +16,9 @@
 
     in {
       defaultPackage = forAllSystems (system:
-        let pkgs = nixpkgsFor.${system};
+        let
+          pkgs = nixpkgsFor.${system};
+          pyenv = pkgs.python38.withPackages (p: with p; [ pysam ]);
         in pkgs.stdenv.mkDerivation {
           pname = "peakzilla";
           version = "2017-05-06"; # must match your git hash
@@ -24,10 +26,9 @@
             owner = "IMTMarburg";
             repo = "peakzilla";
             rev = "9abb5bcda16c9cb5daf1752771833e73537a3f9b";
-            sha256 =
-              "sha256-zjEV0/0L5GvspV7f8+fHRibwwrfHtT5YlBRW6VjC7i8=";
+            sha256 = "sha256-zjEV0/0L5GvspV7f8+fHRibwwrfHtT5YlBRW6VjC7i8=";
           };
-          nativeBuildInputs = [ pkgs.python38 pkgs.python38Packages.pysam ];
+          nativeBuildInputs = [ pyenv ];
           buildPhase = ":";
           installPhase = ''
             mkdir -p $out/bin
