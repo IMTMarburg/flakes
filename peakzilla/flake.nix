@@ -25,8 +25,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "IMTMarburg";
             repo = "peakzilla";
-            rev = "9abb5bcda16c9cb5daf1752771833e73537a3f9b";
-            sha256 = "sha256-zjEV0/0L5GvspV7f8+fHRibwwrfHtT5YlBRW6VjC7i8=";
+            rev = "683cd640c81f3aeb622945026c36f11072ba6ea7";
+            sha256 = "sha256-QbwOPRkC3e7A3jvHqmGOGnIcsdEu2pHUL/+zXgDNKGY=";
           };
           nativeBuildInputs = [ pyenv ];
           buildPhase = ":";
