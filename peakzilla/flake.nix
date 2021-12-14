@@ -25,7 +25,7 @@
             repo = "peakzilla";
             rev = "9abb5bcda16c9cb5daf1752771833e73537a3f9b";
             sha256 =
-              "sha256:0lzfvljrlgp82vz2wsrrsmgrylad959wqm4gb9x311qn2f81idiz";
+              "sha256-zjEV0/0L5GvspV7f8+fHRibwwrfHtT5YlBRW6VjC7i8=";
           };
           nativeBuildInputs = [ pkgs.python38 pkgs.python38Packages.pysam ];
           buildPhase = ":";
