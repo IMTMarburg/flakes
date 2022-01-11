@@ -45,7 +45,10 @@
             curl.dev
             openssl.dev
           ];
-          patches = [ ./patch-2.2.0.patch ];
+          patches = if version >= "2.2.0" then
+            [ ./patch-2.2.0.patch ]
+          else
+            [];
           buildPhase = ''
             set -euo pipefail
               export HTSLIB=${pkgs.htslib}/lib;
