@@ -16,10 +16,17 @@ Examples
 
 # copy pastable
 
+[flakes.stringtie]
+	url = "github:/IMTMarburg/flakes?dir=StringTie" #https://nixos.wiki/wiki/Flakes#Input_schema - relative paths are tricky
+	rev = "b64486e19ecdd64b913ff13d7a129fd583bcced9" # flakes.lock tends to update unexpectedly, so we tie it down here
+	# follows = [] # don't follow nixpkgs, we need 21.11 for the right htslib
+	packages = ['stringtie.x86_64-linux "2.0.6"']
+
+
 [flakes.SRAToolkit]
 	url = "github:/IMTMarburg/flakes?dir=sratoolkit" 
 	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291" # from this repo
-	#follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
+	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
 	
 	
 
@@ -52,4 +59,12 @@ Examples
 	url = "github:/IMTMarburg/flakes?dir=peakzilla" 
 	rev = "d87511310d46c5c1e786bd4b45cad4e81a3a33b1"
 	follows = ["nixpkgs"] # do follow, we don't want a gazillion copies of everything
+	
+[flakes.DMAP]
+	url = "github:/IMTMarburg/flakes?dir=DMAP" 
+	rev = "d15a8840480fac549a65d87ca94ff2f564d018c3"
+	follows = ["nixpkgs"] # do follow, we don't want a gazillion copies of everything
+
+
 ```
+
