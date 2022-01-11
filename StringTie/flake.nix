@@ -1,5 +1,5 @@
 {
-  description = "Subread aligner";
+  description = "StringTie RNAseq assembler";
 
   inputs.nixpkgs.url = "nixpkgs/nixos-21.05"; # doesn't matter much
 
@@ -17,31 +17,28 @@
       ]; # it's java afterall
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
-      version_hashes = {
-        "2.0.3" = "sha256-Vs7zovkU1DJxMGnVwoL0iDHDoezIlDKtVYDKoyKl9Ws=";
-      };
 
-    in rec {
-      subread = forAllSystems (system: version:
+    in {
+
+      # package.
+      defaultPackage = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};
         in pkgs.stdenv.mkDerivation rec {
-          pname = "Subread";
-          inherit version;
+          pname = "StringTie";
+          version = "2.0.3";
           src = pkgs.fetchurl {
             url =
-              "mirror://sourceforge/subread/subread-2.0.3/subread-2.0.3-source.tar.gz";
-            sha256 = version_hashes.${version};
+              "http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.0.tar.gz";
+            sha256 = pkgs.lib.fakeSha256;
           };
-          nativeBuildInputs = with pkgs; [ zlib ];
-          sourceRoot = "subread-${version}-source/src";
+          nativeBuildInputs = [];
           buildPhase = ''
-            make -f Makefile.Linux
+            make release
           '';
           installPhase = ''
-            mkdir $out/bin -p
-            cp ../bin/* $out/bin/ || true
+          mkdir $out/bin -p
+          cp ../bin/* $out/bin/
           '';
         });
-      defaultPackage = forAllSystems (system: (subread.${system} "2.0.3"));
     };
 }

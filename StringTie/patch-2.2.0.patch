@@ -1,0 +1,11 @@
+diff --git a/Makefile b/Makefile
+index d7b179e..cd16881 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,5 +1,5 @@
+ #-- for now these MUST point to the included "samtools-0.x.x" and "gclib" sub-directories
+-HTSLIB  := ./htslib
++#HTSLIB  := ./htslib
+ #-- 
+ LIBDEFLATE := ${HTSLIB}/xlibs/lib/libdeflate.a
+ LIBBZ2 := ${HTSLIB}/xlibs/lib/libbz2.a
