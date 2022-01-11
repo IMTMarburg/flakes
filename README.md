@@ -3,11 +3,25 @@
 
 Examples
 
+# arbitrary STAR version
 ```
+[flakes.star]
+	url = "github:/IMTMarburg/flakes?dir=STAR" #https://nixos.wiki/wiki/Flakes#Input_schema - relative paths are tricky
+	rev = "4f5a72327d7add130961a9c1bd089de989b67fac" # flakes.lock tends to update unexpectedly, so we tie it down here
+	follows = ["nixpkgs"]
+	packages = ['star.x86_64-linux "2.7.3a"']
+	# if you receive mismatchin sha-AAAAAAAAA
+	# you need to copy/paste the right value (in the output) into the version map in STAR/flake.nix and commit it.
+```
+
+# copy pastable
+
 [flakes.SRAToolkit]
 	url = "github:/IMTMarburg/flakes?dir=sratoolkit" 
 	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291" # from this repo
 	#follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
+	
+	
 
 [flakes.FASTQC]
 	url = "github:/IMTMarburg/flakes?dir=FASTQC" 
