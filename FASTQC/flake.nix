@@ -24,7 +24,7 @@
       defaultPackage = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};
         in pkgs.stdenv.mkDerivation rec {
-          pname = "FAQSTC";
+          pname = "FASTQC";
           version = "0.11.9";
           src = fetchTarball {
             url =
