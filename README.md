@@ -47,7 +47,7 @@ Examples
 	url = "github:/IMTMarburg/flakes?dir=MACS2" 
 	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291"
 	follows = ["nixpkgs"]
-	packages = ["MACS2"]
+	packages = ["defaultPackage.x86_64-linux"]
 
 [flakes.bowtie]
 	url = "github:/IMTMarburg/flakes?dir=bowtie" 
