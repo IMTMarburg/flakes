@@ -30,18 +30,18 @@ Examples
 	packages = ["sratoolkit"]
 	
 	
-
-[flakes.FASTQC]
-	url = "github:/IMTMarburg/flakes?dir=FASTQC" 
-	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291"
+[flakes.FASTQC] 
+	url = "github:/IMTMarburg/flakes?dir=FASTQC"
+	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291" 
 	follows = ["nixpkgs"] # do follow, we don't want a gazillion copies of everything
-	packages = ["FASTQC"]
+	packages = ["defaultPackage.x86_64-linux"]
+
 
 [flakes.Subread]
-	url = "github:/IMTMarburg/flakes?dir=Subread" 
-	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291"
-	follows = ["nixpkgs"]
-	packages = ["Subread"]
+  	url = "github:/IMTMarburg/flakes?dir=Subread" 
+  	rev = "d7f3f9042b0edd5caa01de4bcaad438ff35cf867"
+  	follows = ["nixpkgs"]
+  	packages = ["subread.x86_64-linux \"2.0.3\""
 
 [flakes.MACS2]
 	url = "github:/IMTMarburg/flakes?dir=MACS2" 
