@@ -27,8 +27,7 @@ Examples
 	url = "github:/IMTMarburg/flakes?dir=sratoolkit" 
 	rev = "f2b4c6c7fc1fb80f3ab5bff5c7bb35a7bee32291" # from this repo
 	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
-	packages = ["sratoolkit"]
-	
+	packages = ["defaultPackage.x86_64-linux"]
 	
 [flakes.FASTQC] 
 	url = "github:/IMTMarburg/flakes?dir=FASTQC"
@@ -73,5 +72,11 @@ Examples
 	follows = ["nixpkgs"] # do follow, we don't want a gazillion copies of everything
 	packages = ["DMAP"]
 
+[flakes.gdc-client]
+	url = "github:/IMTMarburg/flakes?dir=sratoolkit" 
+	rev = "5e81f24171cf29e7f4c2b157ca55d1befb5b5f9a" # from this repo
+	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
+	packages = ["defaultPackage.x86_64-linux"]
+	
 ```
 
