@@ -77,6 +77,12 @@ Examples
 	rev = "5e81f24171cf29e7f4c2b157ca55d1befb5b5f9a" # from this repo
 	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
 	packages = ["defaultPackage.x86_64-linux"]
+
+# note that this one downloads the code from our own, protected internal server
+[flakes.bcl2fastq]
+	url = "hg+https://<enter-mbf-here>/hg/bcl2fastq"
+	rev = "27e9fe9f9721088e3c9663e3359b13f3e9f5661d" 
+	packages = ['bcl2fastq "v2-20-0"']
 	
 ```
 
