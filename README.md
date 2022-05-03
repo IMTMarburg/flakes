@@ -82,7 +82,7 @@ Examples
 [flakes.bcl2fastq]
 	url = "hg+https://<enter-mbf-here>/hg/bcl2fastq"
 	rev = "27e9fe9f9721088e3c9663e3359b13f3e9f5661d" 
-	packages = ['bcl2fastq "v2-20-0"']
+	packages = ['bcl2fastq.x86_64-linux "v2-20-0"']
 	
 ```
 
