@@ -1,0 +1,95 @@
+diff --git a/INSTALL.pl b/INSTALL.pl
+index 93462d6..53155d4 100755
+--- a/INSTALL.pl
++++ b/INSTALL.pl
+@@ -213,9 +213,9 @@ $FTP_USER     ||= 'anonymous';
+ ## Set the indexed cache url if it's been overwritten by the user
+ $CACHE_URL_INDEXED = $CACHE_URL;
+ 
+-$CACHE_URL  ||= "ftp://ftp.ensembl.org/pub/release-$DATA_VERSION/variation/vep";
+-$CACHE_URL_INDEXED  ||= "ftp://ftp.ensembl.org/pub/release-$DATA_VERSION/variation/indexed_vep_cache";
+-$FASTA_URL  ||= "ftp://ftp.ensembl.org/pub/release-$DATA_VERSION/fasta/";
++$CACHE_URL  ||= "http://ftp.ensembl.org/pub/release-$DATA_VERSION/variation/vep";
++$CACHE_URL_INDEXED  ||= "http://ftp.ensembl.org/pub/release-$DATA_VERSION/variation/indexed_vep_cache";
++$FASTA_URL  ||= "http://ftp.ensembl.org/pub/release-$DATA_VERSION/fasta/";
+ $PLUGIN_URL ||= 'https://raw.githubusercontent.com/Ensembl/VEP_plugins';
+ 
+ # using PREFER_BIN can save memory when extracting archives
+@@ -282,7 +282,8 @@ else {
+ 
+ # clean up
+ if(-d "$CACHE_DIR/tmp" && !$TEST) {
+-  rmtree("$CACHE_DIR/tmp") or die "ERROR: Could not delete directory $CACHE_DIR/tmp\n";
++	# no cleanup, we want you to use the files we downloaded
++	#rmtree("$CACHE_DIR/tmp") or die "ERROR: Could not delete directory $CACHE_DIR/tmp\n";
+ }
+ 
+ print "\nAll done\n" unless $QUIET;
+@@ -299,8 +300,8 @@ sub update() {
+ 
+   my $module = $VEP_MODULE_NAME;
+ 
+-  # check for major version update
+-  my $repo_file = "$RealBin/$$.repo_file";
++  print("check for major version update");
++  my $repo_file = "$RealBin/pid.repo_file";
+   download_to_file(
+     "$git_api_root$module",
+     $repo_file
+@@ -651,12 +652,13 @@ sub setup_dirs() {
+       }
+ 
+       # try to delete the existing dir
+-      rmtree($DEST_DIR) or die "ERROR: Could not delete directory $DEST_DIR\n";
++	  # rmtree($DEST_DIR) or die "ERROR: Could not delete directory $DEST_DIR\n";
+     }
+   }
+ 
+-  mkdir($DEST_DIR) or die "ERROR: Could not make directory $DEST_DIR\n";
+-  mkdir($DEST_DIR.'/tmp') or die "ERROR: Could not make directory $DEST_DIR/tmp\n";
++  # nix does that for us
++  #mkdir($DEST_DIR) or die "ERROR: Could not make directory $DEST_DIR\n";
++  #mkdir($DEST_DIR.'/tmp') or die "ERROR: Could not make directory $DEST_DIR/tmp\n";
+ }
+ 
+ 
+@@ -722,8 +724,9 @@ sub install_api() {
+ 
+ sub get_module_sub_version {
+   my $module = shift;
++  print("get_module_sub_version $module");
+ 
+-  my $sub_file = "$RealBin/$$\.$module.sub";
++  my $sub_file = "$RealBin/pid\.$module.sub";
+   my $release_url_string = looks_like_number($API_VERSION) ? 'release/'.$API_VERSION : $API_VERSION;
+ 
+   download_to_file(
+@@ -749,7 +752,7 @@ sub get_module_sub_version {
+ sub get_vep_sub_version {
+   my $release = shift || $API_VERSION;
+ 
+-  my $sub_file = "$RealBin/$$\.$VEP_MODULE_NAME.sub";
++  my $sub_file = "$RealBin/pid\.$VEP_MODULE_NAME.sub";
+   my $release_url_string = looks_like_number($release) ? 'release/'.$release : $release;
+ 
+   download_to_file(
+@@ -1728,6 +1731,19 @@ sub plugins() {
+ sub download_to_file {
+   my ($url, $file) = @_;
+ 
++  print("url: $url\n");
++  print("file $file\n");
++  my $cwd = getcwd;
++  print("cwd $cwd\n");
++
++  if (-e $file) {
++	  print("skipping download");
++	  return;
++  }
++  else {
++	  print("file was missing");
++  }
++
+   $url =~ s/([a-z])\//$1\:21\// if $url =~ /ftp/ && $url !~ /\:21/;
+ 
+   if($CAN_USE_CURL) {
