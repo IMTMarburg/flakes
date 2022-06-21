@@ -77,6 +77,13 @@ Examples
 	rev = "5e81f24171cf29e7f4c2b157ca55d1befb5b5f9a" # from this repo
 	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
 	packages = ["defaultPackage.x86_64-linux"]
+	
+[flakes.trinity]
+	url = "github:IMTMarburg/flakes?dir=Trinity" #https://nixos.wiki/wiki/Flakes#Input_schema - relative paths are tricky
+	rev = "8aed122780005b155d82c440bb4d5aab0b0c842e" # flakes.lock tends to update unexpectedly, so we tie it down here
+	follows = ["nixpkgs"] # do not the nixpkgs defined in the star flake, use the one above.
+	packages = ['trinity.x86_64-linux "2.14.0"']
+
 ```
 
 ## internal flakes
