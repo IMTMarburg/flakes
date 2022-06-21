@@ -37,9 +37,8 @@
           installPhase = ''
             mkdir $out/bin -p
             cp * $out/bin -r
-            rm $out/bin/trinity-plugins/ParaFly/bin/ParaFly
           '';
-          buildInputs = [pkgs.autoPatchelfHook];
+          buildInputs = [pkgs.autoPatchelfHook pkgs.stdenv.cc.cc.lib];
         }
     );
     defaultPackage = forAllSystems (system: (trinity.${system} "2.14.0"));
