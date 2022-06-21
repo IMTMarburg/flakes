@@ -1,5 +1,3 @@
-# this flake doesn't work, it's missing ParaFly from the bins,
-# and I don't want to polute the global bin right now
 {
   description = "Trinity assembler";
 
@@ -20,29 +18,28 @@
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system: import nixpkgs {inherit system;});
     version_hashes = {
-      #"2.7.10a" = "sha256-qwddCGMOKWgx76qGwRQXwvv9fCSeVsZbWHmlBwEqGKE=";
-      "2.14.0" = "sha256-it8MaJD5ybKcIQgN7imhdMYKnjL18qcHr4a6xMn8pOo=";
+      "3.15.4" = "sha256-+kHFCJPJwbPsnJpQh/aXcPod+I/YX9s148PQVyoD6og=";
     };
   in rec {
-    trinity = forAllSystems (
+    SPAdes = forAllSystems (
       system: version: let
         pkgs = nixpkgsFor.${system};
       in
         pkgs.stdenv.mkDerivation {
-          name = "trinity";
+          name = "spades";
           version = version;
           src = pkgs.fetchurl {
-            url = "https://github.com/trinityrnaseq/trinityrnaseq/releases/download/Trinity-v${version}/trinityrnaseq-v${version}.FULL.tar.gz";
+            url = "https://cab.spbu.ru/files/release3.15.4/SPAdes-3.15.4-Linux.tar.gz";
             sha256 = version_hashes.${version} or pkgs.lib.fakeSha256;
           };
           buildPhase = ":";
           installPhase = ''
-            mkdir $out/bin -p
-            cp * $out/bin -r
+            mkdir $out -p
+            cp * $out -r
           '';
-          buildInputs = [pkgs.autoPatchelfHook pkgs.stdenv.cc.cc.lib];
+          buildInputs = [pkgs.autoPatchelfHook];
         }
     );
-    defaultPackage = forAllSystems (system: (trinity.${system} "2.14.0"));
+    defaultPackage = forAllSystems (system: (SPAdes.${system} "3.15.4"));
   };
 }
