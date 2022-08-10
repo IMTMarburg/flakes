@@ -64,7 +64,6 @@ Examples
 	url = "github:IMTMarburg/flakes?dir=peakzilla" 
 	rev = "d87511310d46c5c1e786bd4b45cad4e81a3a33b1"
 	follows = ["nixpkgs"] # do follow, we don't want a gazillion copies of everything
-	packages = ["peakzilla"]
 	
 [flakes.DMAP]
 	url = "github:IMTMarburg/flakes?dir=DMAP" 
