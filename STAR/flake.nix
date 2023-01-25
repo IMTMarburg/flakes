@@ -21,6 +21,7 @@
         "2.7.3a" = "sha256-WO59Zyg7eAJ+MmRNgX0XQFmRmmMw/q96YBdoiAvH8cE=";
         "2.7.9a" = "sha256-p1yaIbSGu8K5AkqJj0BAzuoWsXr25eCNoQmLXYQeg4E=";
         "2.7.10a" = "sha256-qwddCGMOKWgx76qGwRQXwvv9fCSeVsZbWHmlBwEqGKE=";
+        "2.7.10b" = "sha256-58Y4lzqXwBhRlXcionUg2IhAg5znNUuyr/FsuNZd+5Q=";
       };
     in rec {
       star = forAllSystems (system: version:
@@ -34,6 +35,6 @@
             sha256 = version_hashes.${version} or pkgs.lib.fakeSha256;
           };
         }));
-      defaultPackage = forAllSystems (system: (star.${system} "2.7.3a"));
+      defaultPackage = forAllSystems (system: (star.${system} "2.7.10b"));
     };
 }
