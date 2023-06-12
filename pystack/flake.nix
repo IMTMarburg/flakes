@@ -1,10 +1,5 @@
 {
   description = "flake for pystack";
-  # why don't we just add it to the python packages?
-  # because we want it to be independent of our python packages / python version
-  # (e.g. MACS2 2.2.7.1 is (trivially) not python 3.10 compatible,
-  # because they cast the version to a float and compare to <3.6
-
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.11";
     flake-utils = {
@@ -49,8 +44,7 @@
         ];
         # set cython search path to include ${pkgs.elfutils}/include
         CPPFLAGS = "-I${pkgs.elfutils}/include -I${pkgs.libelf}/include";
-        LDFLAGS="-L${pkgs.elfutils}/lib -L${pkgs.libelf}/lib";
-
+        LDFLAGS = "-L${pkgs.elfutils}/lib -L${pkgs.libelf}/lib";
       });
   };
 }
