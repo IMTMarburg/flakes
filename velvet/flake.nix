@@ -1,5 +1,5 @@
 {
-  description = "Bowtie aligner";
+  description = "Velvet assembler";
 
   inputs.nixpkgs.url = "nixpkgs/nixos-21.05"; # doesn't matter much
 

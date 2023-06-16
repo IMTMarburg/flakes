@@ -76,7 +76,12 @@ Examples
 	rev = "5e81f24171cf29e7f4c2b157ca55d1befb5b5f9a" # from this repo
 	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
 	packages = ["defaultPackage.x86_64-linux"]
-	
+
+[flakes.velvet-client]
+	url = "github:IMTMarburg/flakes?dir=velvet" 
+	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
+	packages = ["defaultPackage.x86_64-linux"]
+		
 
 ```
 
