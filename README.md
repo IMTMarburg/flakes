@@ -77,7 +77,7 @@ Examples
 	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
 	packages = ["defaultPackage.x86_64-linux"]
 
-[flakes.velvet-client]
+[flakes.velvet]
 	url = "github:IMTMarburg/flakes?dir=velvet" 
 	# follows = ["nixpkgs"] # don't follow, we need the right so.s to wrap the stuff
 	packages = ["defaultPackage.x86_64-linux"]
