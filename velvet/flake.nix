@@ -33,7 +33,7 @@
           installPhase = ''
             mkdir $out/bin -p
             cd /build
-            cp source/velveth* $out/bin/
+            cp source/velvet* $out/bin/
             '';
         };
       in
