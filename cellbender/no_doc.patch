@@ -1,0 +1,18 @@
+diff --git a/REQUIREMENTS.txt b/REQUIREMENTS.txt
+index 535e3e7..1d8e9a3 100644
+--- a/REQUIREMENTS.txt
++++ b/REQUIREMENTS.txt
+@@ -6,8 +6,8 @@ pandas
+ pyro-ppl>=0.3.2
+ scikit-learn
+ matplotlib
+-sphinx>=2.1
+-sphinx-rtd-theme
+-sphinx-autodoc-typehints
+-sphinxcontrib-programoutput
+-sphinx-argparse
++#sphinx>=2.1
++#sphinx-rtd-theme
++#sphinx-autodoc-typehints
++#sphinxcontrib-programoutput
++#sphinx-argparse
