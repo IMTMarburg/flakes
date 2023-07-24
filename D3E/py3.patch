@@ -1,0 +1,135 @@
+diff --git a/D3ECmd.py b/D3ECmd.py
+index 801e501..ed7a787 100644
+--- a/D3ECmd.py
++++ b/D3ECmd.py
+@@ -29,7 +29,7 @@ You should have received a copy of the GNU General Public License
+ along with D3E.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ '''
+-from __future__ import division
++
+ 
+ from D3EUtil import readData, getParamsBayesian, getParamsMoments, cramerVonMises, logStatus, goodnessOfFit, distributionTest
+ from D3EUtil import Params, BioParams, Status, likelihoodRatio
+diff --git a/D3EUtil.py b/D3EUtil.py
+index 2f98f0a..3abc7c8 100644
+--- a/D3EUtil.py
++++ b/D3EUtil.py
+@@ -31,7 +31,7 @@ along with D3E.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ '''
+ 
+-from __future__ import division
++
+ from scipy.special import kv, gammaln, gamma, hyp1f1, factorial
+ from scipy.stats import gmean, ks_2samp, anderson_ksamp, chi2
+ from scipy.stats import poisson as poissonF
+@@ -102,7 +102,7 @@ class RVar:
+ 		while 1:
+ 			n = n - 1
+ 			if n < 0 :
+-				print "Warning: Can't find a new value."
++				print("Warning: Can't find a new value.")
+ 				return x0
+ 
+ 
+@@ -124,7 +124,7 @@ class RVar:
+ 
+ def logStatus(status):
+ 	statusType = ['Log','Warning','Error']
+-	print status.idx + ' - ' + statusType[status.code] + ': ' + status.message
++	print(status.idx + ' - ' + statusType[status.code] + ': ' + status.message)
+ 
+ # Read a header of an input file, get indeces of colums that match specified labels
+ def _readHeader(header, label1, label2):
+@@ -223,8 +223,8 @@ def readData(inputFile, label1, label2, normalise=True, removeZeros=False, useSp
+ 		idsFiltered = []
+ 
+ 		for p1, p2, idx in zip(data1,data2,ids):
+-			p1 = filter(lambda x: x!=0, p1)
+-			p2 = filter(lambda x: x!=0, p2)
++			p1 = [x for x in p1 if x!=0]
++			p2 = [x for x in p2 if x!=0]
+ 
+ 			if len(p1) != 0 and len(p2) != 0:
+ 				dataFiltered1.append(p1)
+@@ -285,8 +285,8 @@ def cramerVonMises(x, y):
+ 		n = len(x)
+ 		m = len(y)
+ 
+-		i = array(range(1, n+1))
+-		j = array(range(1, m+1))
++		i = array(list(range(1, n+1)))
++		j = array(list(range(1, m+1)))
+ 
+ 		u = n * sum ( power( (rx - i), 2 ) ) + m * sum ( power((ry - j), 2) )
+ 
+@@ -305,7 +305,7 @@ def cramerVonMises(x, y):
+ 		else:
+ 			return 0
+ 	except Exception as e:
+-		print e
++		print(e)
+ 		return -1
+ 
+ # Perform a Kolmogorov-Smirnov test of two samples x and y. H0: samples x and y are drawn from the same distribution. Returns a p-value.
+@@ -314,7 +314,7 @@ def KSTest(x, y):
+ 		return ks_2samp(x,y)[1]
+ 
+ 	except Exception as e:
+-		print e
++		print(e)
+ 		return -1
+ 
+ # Perform a Anderson-Darling test of two samples x and y. H0: samples x and y are drawn from the same distribution. Returns am interpolated p-value.
+@@ -322,7 +322,7 @@ def ADTest(x,y):
+ 	try:
+ 		return anderson_ksamp([x,y])[2]
+ 	except Exception as e:
+-		print e
++		print(e)
+ 		return -1
+ 
+ def distributionTest(x,y,method):
+diff --git a/D3EWeb.py b/D3EWeb.py
+index 0b1d996..1108cf9 100644
+--- a/D3EWeb.py
++++ b/D3EWeb.py
+@@ -30,14 +30,14 @@ along with D3E.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ '''
+ 
+-from __future__ import division
++
+ from D3EUtil import readData, getParamsMoments, cramerVonMises, logStatus, goodnessOfFit
+ from D3EUtil import Params, BioParams, Status 
+ 
+ from numpy import log2, mean
+ from scipy.stats import variation
+ 
+-import StringIO
++import io
+ import json
+ import sys
+ import fileinput
+@@ -52,7 +52,7 @@ def getBioParams(params):
+ inputString = fileinput.input()[0].rstrip('\n')
+ 
+ inputJSON = json.loads(inputString)
+-inputFile = StringIO.StringIO(inputJSON['input']);
++inputFile = io.StringIO(inputJSON['input']);
+ label1 = inputJSON['label1']
+ label2 = inputJSON['label2']
+ normalise = int(inputJSON['normalise'])
+@@ -119,9 +119,9 @@ for p1,p2,idx in zip(data1, data2, ids):
+ 								difference)
+ 		rowVals = rowString.split('\t')
+ 
+-		rows.append( dict( zip( rowKeys, rowVals ) ) )
++		rows.append( dict( list(zip( rowKeys, rowVals )) ) )
+ 
+ 
+ jsonOutput = { "rows" : rows, "columns" : cols, "errors" : errors }
+-print json.dumps(jsonOutput)
++print(json.dumps(jsonOutput))
+ 
