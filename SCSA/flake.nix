@@ -1,5 +1,5 @@
 {
-  description = "SCSA single cell annotation";
+  description = "SCSA: cell type annotation for single-cell RNA-seq data";
 
   inputs.nixpkgs.url = "nixpkgs/nixos-23.05"; # I'm pretty sure it will start failing once pands is newer than 1.5.x
 
@@ -43,7 +43,7 @@
             mkdir $out/share/ -p
             cp *.db $out/share/
           '';
-          meta = with lib; {
+          meta = with pkgs.lib; {
             homepage = "https://github.com/bioinfo-ibms-pumc/SCSA";
             description = "SCSA: cell type annotation for single-cell RNA-seq data";
             longDescription = ''
