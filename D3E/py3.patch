@@ -11,6 +11,19 @@ index 801e501..ed7a787 100644
  
  from D3EUtil import readData, getParamsBayesian, getParamsMoments, cramerVonMises, logStatus, goodnessOfFit, distributionTest
  from D3EUtil import Params, BioParams, Status, likelihoodRatio
+diff --git a/D3EMakeContol.py b/D3EMakeContol.py
+index 2c6f80b..716805c 100644
+--- a/D3EMakeContol.py
++++ b/D3EMakeContol.py
+@@ -43,7 +43,7 @@ outFileName = open(outFileName,'w')
+ 
+ p1, p2, ids, lineStatus = readData(inFile, label, label, normalise=False, removeZeros=False, useSpikeIns = False, verbose = True)
+ 
+-n = len(p1[0]) / 2
++n = int(len(p1[0]) / 2)
+ 
+ outFileName.write('GeneID\t' + '\t'.join( [ label+'_1' ] * n + [label+'_2'] * (len(p1[0])-n) ) + '\n')
+ 
 diff --git a/D3EUtil.py b/D3EUtil.py
 index 2f98f0a..3abc7c8 100644
 --- a/D3EUtil.py
