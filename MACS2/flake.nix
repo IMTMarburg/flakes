@@ -61,7 +61,7 @@
             cython>=0.29
             pytest>=4.6
             pytest-cov>=2.8
-            codecov>=2.0
+            # codecov>=2.0
             setuptools>=41.2
           ";
         });
