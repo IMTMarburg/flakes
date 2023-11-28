@@ -1,47 +1,48 @@
+diff --git a/bin/ROSE_geneMapper.py b/bin/ROSE_geneMapper.py
+index f169984..2b41ba8 100755
+--- a/bin/ROSE_geneMapper.py
++++ b/bin/ROSE_geneMapper.py
+@@ -248,7 +248,7 @@ def main():
+ 
+ 
+     #GETTING THE CORRECT ANNOT FILE
+-    cwd = os.getcwd()
++    cwd = os.path.dirname(os.path.realpath(__file__)) + '/../ROSE'
+     genomeDict = {
+         'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
+         'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
 diff --git a/bin/ROSE_main.py b/bin/ROSE_main.py
-index 761be5f..1c6e42e 100755
+index 761be5f..ab3bc64 100755
 --- a/bin/ROSE_main.py
 +++ b/bin/ROSE_main.py
-@@ -247,6 +247,19 @@ def main():
-     #RETRIEVING FLAGS
-     (options,args) = parser.parse_args()
+@@ -289,7 +289,7 @@ def main():
  
-+    #GETTING THE CORRECT ANNOT FILE
-+    cwd = os.path.dirname(os.path.realpath(__file__))
-+    genomeDict = {
-+        'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
-+        'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
-+        'HG19':'%s/annotation/hg19_refseq.ucsc' % (cwd),
-+        'HG38':'%s/annotation/hg38_refseq.ucsc' % (cwd),
-+        'MM8': '%s/annotation/mm8_refseq.ucsc' % (cwd),
-+        'MM10':'%s/annotation/mm10_refseq.ucsc' % (cwd),
-+        }
-+    print(genomeDict)
-+
-+
+     if options.bams:
+         bamFileList += options.bams.split(',')
+-        bamFileLIst = ROSE_utils.uniquify(bamFileList)
++        bamFileList = ROSE_utils.uniquify(bamFileList)
+     #optional args
  
-     if not options.input or not options.rankby or not options.out or not (options.genome or options.custom_genome):
-         print('hi there')
-@@ -306,17 +319,6 @@ def main():
-     print(('USING %s AS THE INPUT GFF' % (inputGFFFile)))
+     #Stitch parameter
+@@ -307,7 +307,7 @@ def main():
      inputName = inputGFFFile.split('/')[-1].split('.')[0]
  
--    #GETTING THE CORRECT ANNOT FILE
+     #GETTING THE CORRECT ANNOT FILE
 -    cwd = os.getcwd()
--    genomeDict = {
--        'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
--        'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
--        'HG19':'%s/annotation/hg19_refseq.ucsc' % (cwd),
--        'HG38':'%s/annotation/hg38_refseq.ucsc' % (cwd),
--        'MM8': '%s/annotation/mm8_refseq.ucsc' % (cwd),
--        'MM10':'%s/annotation/mm10_refseq.ucsc' % (cwd),
--        }
--
++    cwd = os.path.dirname(os.path.realpath(__file__)) + '/../ROSE'
+     genomeDict = {
+         'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
+         'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
+@@ -316,6 +316,7 @@ def main():
+         'MM8': '%s/annotation/mm8_refseq.ucsc' % (cwd),
+         'MM10':'%s/annotation/mm10_refseq.ucsc' % (cwd),
+         }
++    print(genomeDict)
+ 
      #GETTING THE GENOME
      if options.custom_genome:
-         annotFile = options.custom_genome
 diff --git a/lib/ROSE_utils.py b/lib/ROSE_utils.py
-index 0f146b2..be66475 100755
+index 0f146b2..8a212b5 100755
 --- a/lib/ROSE_utils.py
 +++ b/lib/ROSE_utils.py
 @@ -109,7 +109,7 @@ def formatFolder(folderName,create=False):
@@ -53,3 +54,29 @@ index 0f146b2..be66475 100755
              return folderName
          else:
                      
+@@ -579,15 +579,15 @@ class Bam:
+         self._bam = bamFile
+ 
+     def getTotalReads(self,readType = 'mapped'):
+-        command = 'samtools flagstat %s' % (self._bam)
++        command = '/usr/bin/env samtools flagstat %s' % (self._bam)
+         stats = subprocess.Popen(command,stdin = subprocess.PIPE,stderr = subprocess.PIPE,stdout = subprocess.PIPE,shell = True)
+-        statLines = stats.stdout.readlines()
+-        stats.stdout.close()
++        stdout, stderr = stats.communicate('')
++        if stats.returncode != 0:
++            raise ValueError("samtools error return " + str(stats.returncode) + " - stderr " + str(stderr))
++        statLines = stdout.decode('utf-8').split("\n")
+         if readType == 'mapped':
+             for line in statLines:
+-                line = line.decode("utf-8")
+                 if line.count('mapped (') == 1:
+-                    
+                     return int(line.split(' ')[0])
+         if readType == 'total':
+             return int(statLines[0].split(' ')[0])
+@@ -794,3 +794,4 @@ def order(x, NoneIsLast = True, decreasing = False):
+                 n -= 1
+         return ix[:n]
+     return ix
++
