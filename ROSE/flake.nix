@@ -49,7 +49,7 @@
             patchShebangs $out/bin/ROSE_geneMapper.py
           '';
           buildInputs = [pkgs.python3 pkgs.R];
-          patches = [./fix_paths.patch ./make_sane.patch];
+          patches = [ ./make_sane.patch];
           #propagatedBuildInputs = [
             #(pkgs.python3.withPackages (ps: with ps; []))
           #];

@@ -1,3 +1,45 @@
+diff --git a/bin/ROSE_main.py b/bin/ROSE_main.py
+index 761be5f..1c6e42e 100755
+--- a/bin/ROSE_main.py
++++ b/bin/ROSE_main.py
+@@ -247,6 +247,19 @@ def main():
+     #RETRIEVING FLAGS
+     (options,args) = parser.parse_args()
+ 
++    #GETTING THE CORRECT ANNOT FILE
++    cwd = os.path.dirname(os.path.realpath(__file__))
++    genomeDict = {
++        'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
++        'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
++        'HG19':'%s/annotation/hg19_refseq.ucsc' % (cwd),
++        'HG38':'%s/annotation/hg38_refseq.ucsc' % (cwd),
++        'MM8': '%s/annotation/mm8_refseq.ucsc' % (cwd),
++        'MM10':'%s/annotation/mm10_refseq.ucsc' % (cwd),
++        }
++    print(genomeDict)
++
++
+ 
+     if not options.input or not options.rankby or not options.out or not (options.genome or options.custom_genome):
+         print('hi there')
+@@ -306,17 +319,6 @@ def main():
+     print(('USING %s AS THE INPUT GFF' % (inputGFFFile)))
+     inputName = inputGFFFile.split('/')[-1].split('.')[0]
+ 
+-    #GETTING THE CORRECT ANNOT FILE
+-    cwd = os.getcwd()
+-    genomeDict = {
+-        'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
+-        'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
+-        'HG19':'%s/annotation/hg19_refseq.ucsc' % (cwd),
+-        'HG38':'%s/annotation/hg38_refseq.ucsc' % (cwd),
+-        'MM8': '%s/annotation/mm8_refseq.ucsc' % (cwd),
+-        'MM10':'%s/annotation/mm10_refseq.ucsc' % (cwd),
+-        }
+-
+     #GETTING THE GENOME
+     if options.custom_genome:
+         annotFile = options.custom_genome
 diff --git a/lib/ROSE_utils.py b/lib/ROSE_utils.py
 index 0f146b2..be66475 100755
 --- a/lib/ROSE_utils.py
