@@ -7,7 +7,7 @@ index 761be5f..9416900 100755
  
      #GETTING THE CORRECT ANNOT FILE
 -    cwd = os.getcwd()
-+    cwd = os.path.dirname(__file__) / '../ROSE/annotation'
++    cwd = os.path.abspath(os.path.dirname(__file__) + '/../ROSE/annotation')
      genomeDict = {
          'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
          'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
