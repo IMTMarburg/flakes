@@ -1,0 +1,13 @@
+diff --git a/lib/ROSE_utils.py b/lib/ROSE_utils.py
+index 0f146b2..be66475 100755
+--- a/lib/ROSE_utils.py
++++ b/lib/ROSE_utils.py
+@@ -109,7 +109,7 @@ def formatFolder(folderName,create=False):
+     except OSError:
+         print(('folder %s does not exist' % (folderName)))
+         if create:
+-            os.system('mkdir %s' % (folderName))
++            os.system('mkdir "%s" -p' % (folderName))
+             return folderName
+         else:
+                     
