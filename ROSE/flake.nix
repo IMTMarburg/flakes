@@ -25,6 +25,10 @@
         #   packages = with pkgs.rPackages; [
         #   ];
         # };
+        mypython = pkgs.python310.withPackages (ps:
+          with ps; [
+            ps.rich
+          ]);
         rose = pkgs.stdenv.mkDerivation {
           pname = "rose";
           version = "1.3.1";
@@ -43,17 +47,14 @@
             chmod +x $out/bin/*
             cp lib/ROSE_utils.py $out/bin
             # fix shebang
-            patchShebangs $out/bin/ROSE_main.py
-            patchShebangs $out/bin/ROSE_geneMapper.py
-            patchShebangs $out/bin/ROSE_bamToGFF.py
-            patchShebangs $out/bin/ROSE_geneMapper.py
+            substituteInPlace $out/bin/ROSE_main.py --replace "/usr/bin/env python3" $mypython/bin/python3
+            substituteInPlace $out/bin/ROSE_geneMapper.py --replace "/usr/bin/env python3" $mypython/bin/python3
+            substituteInPlace $out/bin/ROSE_bamToGFF.py --replace "/usr/bin/env python3" $mypython/bin/python3
+            substituteInPlace $out/bin/ROSE_geneMapper.py --replace "/usr/bin/env python3" $mypython/bin/python3
           '';
-          buildInputs = [pkgs.python3 pkgs.R];
-          propagatedBuildInputs = [pkgs.samtools];
+          buildInputs = [mypython pkgs.R];
           patches = [./make_sane.patch];
-          #propagatedBuildInputs = [
-          #(pkgs.python3.withPackages (ps: with ps; []))
-          #];
+          propagatedBuildInputs = [pkgs.samtools];
         };
       in
         rose

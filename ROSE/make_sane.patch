@@ -1,8 +1,26 @@
+diff --git a/bin/ROSE_bamToGFF.py b/bin/ROSE_bamToGFF.py
+index 3fccd92..b6450ab 100755
+--- a/bin/ROSE_bamToGFF.py
++++ b/bin/ROSE_bamToGFF.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/env python3
++from rich.traceback import install
++install(show_locals=True)
+ #bamToGFF.py
+ 
+ #script to grab reads from a bam that align to a .gff file
 diff --git a/bin/ROSE_geneMapper.py b/bin/ROSE_geneMapper.py
-index f169984..2b41ba8 100755
+index f169984..e3f6a0e 100755
 --- a/bin/ROSE_geneMapper.py
 +++ b/bin/ROSE_geneMapper.py
-@@ -248,7 +248,7 @@ def main():
+@@ -1,4 +1,6 @@
+ #!/usr/bin/env python3
++from rich.traceback import install
++install(show_locals=True)
+ #130428
+ 
+ #ROSE_geneMapper.py
+@@ -248,7 +250,7 @@ def main():
  
  
      #GETTING THE CORRECT ANNOT FILE
@@ -12,10 +30,17 @@ index f169984..2b41ba8 100755
          'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
          'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
 diff --git a/bin/ROSE_main.py b/bin/ROSE_main.py
-index 761be5f..ab3bc64 100755
+index 761be5f..ca2dfce 100755
 --- a/bin/ROSE_main.py
 +++ b/bin/ROSE_main.py
-@@ -289,7 +289,7 @@ def main():
+@@ -1,4 +1,6 @@
+ #!/usr/bin/env python3
++from rich.traceback import install
++install(show_locals=True)
+ 
+ #mapEnhancerFromFactor.py
+ '''
+@@ -289,7 +291,7 @@ def main():
  
      if options.bams:
          bamFileList += options.bams.split(',')
@@ -24,7 +49,7 @@ index 761be5f..ab3bc64 100755
      #optional args
  
      #Stitch parameter
-@@ -307,7 +307,7 @@ def main():
+@@ -307,7 +309,7 @@ def main():
      inputName = inputGFFFile.split('/')[-1].split('.')[0]
  
      #GETTING THE CORRECT ANNOT FILE
@@ -33,7 +58,7 @@ index 761be5f..ab3bc64 100755
      genomeDict = {
          'HG18':'%s/annotation/hg18_refseq.ucsc' % (cwd),
          'MM9': '%s/annotation/mm9_refseq.ucsc' % (cwd),
-@@ -316,6 +316,7 @@ def main():
+@@ -316,6 +318,7 @@ def main():
          'MM8': '%s/annotation/mm8_refseq.ucsc' % (cwd),
          'MM10':'%s/annotation/mm10_refseq.ucsc' % (cwd),
          }
