@@ -16,7 +16,11 @@
       # "aarch64-darwin"
     ]; #
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-    nixpkgsFor = forAllSystems (system: import nixpkgs {inherit system;});
+    nixpkgsFor = forAllSystems (system:
+      import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      });
     version_hashes = {
       "2010-09-02" = "sha256-C3qwEYEo729F3/P0VVAwohorrwFvoraAHyUxWhdjmH8=";
     };
