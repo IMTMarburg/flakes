@@ -35,6 +35,10 @@
             url = "https://great-help.atlassian.net/wiki/download/attachments/655443/GREATv4.curatedRegDoms.hg38.txt?version=1&modificationDate=1627413265059&cacheVersion=1&api=v2&download=true";
             sha256 = "sha256-9jzJhv0z4Gy+8MrYxNmYt2v1E7hn943LOWF9naA19CY=";
           };
+          "hg19" = pkgs.fetchurl {
+            url = "https://great-help.atlassian.net/wiki/download/attachments/655443/GREATv4.curatedRegDoms.hg19.txt?version=1&modificationDate=1627413264632&cacheVersion=1&api=v2&download=true";
+            sha256 = "sha256-FYoPspv3Ghg82k8RcHQPrJmDjfMEoHKdoud7QV86f1g=";
+          };
 
           "mm10" = pkgs.fetchurl {
             url = "https://great-help.atlassian.net/wiki/download/attachments/655443/GREATv4.curatedRegDoms.mm10.txt?version=1&modificationDate=1627413266154&cacheVersion=1&api=v2&download=true";
