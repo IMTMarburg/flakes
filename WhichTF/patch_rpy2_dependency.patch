@@ -1,0 +1,337 @@
+diff --git a/setup.py b/setup.py
+index d208348..9ab3bc0 100644
+--- a/setup.py
++++ b/setup.py
+@@ -10,7 +10,7 @@ config = {
+     'download_url': 'Where to download it.',
+     'author_email': 'ethansdyer@gmail.com.',
+     'version': '0.2',
+-    'install_requires': ['nose', 'numpy', 'scipy', 'pandas', 'rpy2==2.9.3'],
++    'install_requires': ['nose', 'numpy', 'scipy', 'pandas'],
+     'packages': ['whichtf'],
+     'scripts': ['bin/WhichTF'],
+     'name': 'whichtf'
+diff --git a/tests/whichtf__tests.py b/tests/whichtf__tests.py
+index 510a268..8fb1639 100644
+--- a/tests/whichtf__tests.py
++++ b/tests/whichtf__tests.py
+@@ -2,10 +2,10 @@ from nose.tools import *
+ import whichtf
+ 
+ def setup():
+-    print "SETUP!"
++    print("SETUP!")
+ 
+ def teardown():
+-    print "TEAR DOWN!"
++    print("TEAR DOWN!")
+ 
+ def test_basic():
+-    print "I RAN!"
++    print("I RAN!")
+diff --git a/whichtf/run.py b/whichtf/run.py
+index d1ce033..52c0b29 100644
+--- a/whichtf/run.py
++++ b/whichtf/run.py
+@@ -11,9 +11,6 @@ from logging import getLogger
+ import collections
+ import tempfile
+ 
+-import rpy2.robjects as robjects
+-from rpy2.robjects import numpy2ri
+-from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
+ 
+ np.seterr(all='warn')
+ np.seterr(under='warn')
+@@ -24,7 +21,7 @@ logger = getLogger("run.py")
+ # R functions wrapper #
+ ##############################
+ 
+-R_func_wrapper = SignatureTranslatedAnonymousPackage(
++R_func_wrapper = (
+     """
+     hyper_logsf <- function(q, m, n, k) {
+         return(-phyper(q = q, m = m, n = n, k = k, log.p=TRUE, lower.tail = FALSE)/log(10))
+@@ -230,15 +227,21 @@ def bin_terms(region_out_path, settings):
+     prob_vec = p_vec(cut_term_ids, term_sizes, term_dict,
+                      genome_size=chrom_sizes)
+ 
+-    numpy2ri.activate()
++    # log_bpvals = np.array([
++    #     R_func_wrapper.binom_logsf(
++    #         q = hits[i] - 1,
++    #         size = N,
++    #         prob = prob_vec[i],
++    #         )[0]
++    #         for i in range(len(hits))])
+     log_bpvals = np.array([
+-        R_func_wrapper.binom_logsf(
+-            q = hits[i] - 1,
+-            size = N,
+-            prob = prob_vec[i],
+-            )[0]
++        scipy.stats.binom.logfs(
++            k = hits[i] - 1,
++            n = N,
++            p = prob_vec[i],
++            )
+             for i in range(len(hits))])
+-    numpy2ri.deactivate()
++
+ 
+     # Take top
+     rev_terms = {i: cut_terms[i] for i in range(len(cut_terms))}
+@@ -461,17 +464,29 @@ def hyper_mat(run_term_tf, n_vec):
+     N_val = n_vec.sum()
+     K_vec_1d = run_term_tf.sum(axis=1)
+ 
+-    numpy2ri.activate()
++    # p_val_matrix = np.array([[
++    #     R_func_wrapper.hyper_logsf(
++    #         q = run_term_tf[i, j] - 1,
++    #         m = K_vec_1d[i],
++    #         n = N_val - K_vec_1d[i],
++    #         k = n_vec[0, j]
++    #         )[0]
++    #         for j in range(run_term_tf.shape[1])]
++    #         for i in range(run_term_tf.shape[0])])
++
+     p_val_matrix = np.array([[
+-        R_func_wrapper.hyper_logsf(
+-            q = run_term_tf[i, j] - 1,
+-            m = K_vec_1d[i],
+-            n = N_val - K_vec_1d[i],
+-            k = n_vec[0, j]
+-            )[0]
++        scipy.stats.hyper.logsf(
++            k = run_term_tf[i, j] - 1,
++            N = n_vec[0, j],
++            m = N_val - K_vec_1d[i],
++            M =N_val 
++            # q = run_term_tf[i, j] - 1,
++            # m = K_vec_1d[i],
++            # n = N_val - K_vec_1d[i],
++            # k = n_vec[0, j]
++            )
+             for j in range(run_term_tf.shape[1])]
+             for i in range(run_term_tf.shape[0])])
+-    numpy2ri.deactivate()
+ 
+     debug_dump_p_val_matrix(p_val_matrix, logscale = True)
+ 
+@@ -584,16 +599,24 @@ def binom_mat(run_term_tf, n_vec, prob_vec):
+     """
+     logger.debug('binom_mat() start')
+ 
+-    numpy2ri.activate()
++    #numpy2ri.activate()
++    # p_val_matrix = np.array([[
++    #     R_func_wrapper.binom_logsf(
++    #         q = run_term_tf[i, j] - 1,
++    #         size = n_vec[0, j],
++    #         prob = prob_vec[i],
++    #         )[0]
++    #         for j in range(run_term_tf.shape[1])]
++    #         for i in range(run_term_tf.shape[0])])
++    # numpy2ri.deactivate()
+     p_val_matrix = np.array([[
+-        R_func_wrapper.binom_logsf(
+-            q = run_term_tf[i, j] - 1,
+-            size = n_vec[0, j],
+-            prob = prob_vec[i],
+-            )[0]
++        scipy.stats.binom.logsf(
++            k = run_term_tf[i, j] - 1,
++            n = n_vec[0, j],
++            p = prob_vec[i],
++            )
+             for j in range(run_term_tf.shape[1])]
+             for i in range(run_term_tf.shape[0])])
+-    numpy2ri.deactivate()
+ 
+     debug_dump_p_val_matrix(p_val_matrix, logscale = True)
+ 
+@@ -932,15 +955,22 @@ def pmg(region_out_path, assembly, settings):
+     tots = np.zeros_like(hits)
+     tots[:] = N
+ 
+-    numpy2ri.activate()
++    # numpy2ri.activate()
++    # bin_p = np.array([
++    #     R_func_wrapper.binom_logsf(
++    #         q = hits[i] - 1,
++    #         size = N,
++    #         prob = prob_vec[i],
++    #         )[0]
++    #         for i in range(len(hits))])
++    # numpy2ri.deactivate()
+     bin_p = np.array([
+-        R_func_wrapper.binom_logsf(
+-            q = hits[i] - 1,
+-            size = N,
+-            prob = prob_vec[i],
+-            )[0]
++        scipy.stats.binom.logsf(
++            k = hits[i] - 1,
++            n = N,
++            p = prob_vec[i],
++            )
+             for i in range(len(hits))])
+-    numpy2ri.deactivate()
+ 
+     g_counts_dict = {}
+ 
+diff --git a/whichtf/whichtf-server.py b/whichtf/whichtf-server.py
+index 55c1ea6..713d78b 100644
+--- a/whichtf/whichtf-server.py
++++ b/whichtf/whichtf-server.py
+@@ -7,86 +7,86 @@ from scipy import sparse
+ from scipy import stats
+ from logging import getLogger
+ 
+-import rpy2.robjects as robjects
+-from rpy2.robjects import numpy2ri
+-from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
+ 
+-from flask import Flask
++try:
++    from flask import Flask
+ 
+-from .run import load_assembly, load_ontology, Run_task_server
+-from .configs import parse_argv
++    from .run import load_assembly, load_ontology, Run_task_server
++    from .configs import parse_argv
+ 
+-app = Flask(__name__)
++    app = Flask(__name__)
+ 
+-class WhichTF_reference:
+-    '''
+-    This class provides instances that store reference data for a specific
+-    combination of assembly, tfbs, and ontology.
+-    '''
+-    def __init__(self, data, assembly, tfbs, ont):
+-        self.assembly=assembly
+-        self.tfbs=tfbs
+-        self.ont=ont
++    class WhichTF_reference:
++        '''
++        This class provides instances that store reference data for a specific
++        combination of assembly, tfbs, and ontology.
++        '''
++        def __init__(self, data, assembly, tfbs, ont):
++            self.assembly=assembly
++            self.tfbs=tfbs
++            self.ont=ont
+ 
+-        self.reg_dict, self.tf_dict, self.tf_sparse_data = load_assembly(
+-            os.path.join(data, self.assembly, self.tfbs, 'tfbs.data.npz')
+-        )
+-        self.term_dict, self.term_sparse_data = load_ontology(
+-            os.path.join(data, self.assembly, self.tfbs, 'ontologies', ont, 'ont.data.npz')
+-        )
+-        print(assembly, tfbs, ont)
++            self.reg_dict, self.tf_dict, self.tf_sparse_data = load_assembly(
++                os.path.join(data, self.assembly, self.tfbs, 'tfbs.data.npz')
++            )
++            self.term_dict, self.term_sparse_data = load_ontology(
++                os.path.join(data, self.assembly, self.tfbs, 'ontologies', ont, 'ont.data.npz')
++            )
++            print(assembly, tfbs, ont)
+ 
+ 
+-def main():
+-    data = os.path.join('/webapp', 'whichtf', 'data')
+-    assembly_names=['hg19']
+-    tfbs_names=['PRISM']
+-    ont_names=['MGIPhenotype']
++    def main():
++        data = os.path.join('/webapp', 'whichtf', 'data')
++        assembly_names=['hg19']
++        tfbs_names=['PRISM']
++        ont_names=['MGIPhenotype']
+ 
+-    whichtf_ref = dict([])
+-    for assembly, tfbs, ont in itertools.product(assembly_names, tfbs_names, ont_names):
+-        whichtf_ref[(assembly, tfbs, ont)] = WhichTF_reference(data, assembly, tfbs, ont)
++        whichtf_ref = dict([])
++        for assembly, tfbs, ont in itertools.product(assembly_names, tfbs_names, ont_names):
++            whichtf_ref[(assembly, tfbs, ont)] = WhichTF_reference(data, assembly, tfbs, ont)
+ 
+-    return whichtf_ref
++        return whichtf_ref
+ 
+ 
+-whichtf_ref = main()
+-great_results_root=os.path.join('/scratch', 'great', 'tmp', 'results')
+-WhichTF_ref_dir='/webapp/whichtf/data'
+-overlapSelect='/webapp/whichtf/bin/overlapSelect'
++    whichtf_ref = main()
++    great_results_root=os.path.join('/scratch', 'great', 'tmp', 'results')
++    WhichTF_ref_dir='/webapp/whichtf/data'
++    overlapSelect='/webapp/whichtf/bin/overlapSelect'
+ 
+ 
+-@app.route('/')
+-def hello():
+-    return "Hello World!"
++    @app.route('/')
++    def hello():
++        return "Hello World!"
+ 
+-@app.route("/<assembly>/<tfbs>/<ont>/<sessionName>")
+-def results(assembly, tfbs, ont, sessionName):
+-    '''$curl http://localhost:5000/hg19/PRISM/MGIPhenotype/20180807-public-4.0.3-hYc14B'''
++    @app.route("/<assembly>/<tfbs>/<ont>/<sessionName>")
++    def results(assembly, tfbs, ont, sessionName):
++        '''$curl http://localhost:5000/hg19/PRISM/MGIPhenotype/20180807-public-4.0.3-hYc14B'''
+ 
+-    # 'data/demo/ENCFF719GOE.bed', 'hg19', '-v', '--outFile', 'data/demo/ENCFF719GOE.whichtf.tsv', '--data', '/webapp/whichtf/data', '--overlapSelect', 'bin/overlapSelect'
+-    sessionDir=os.path.join(great_results_root, '{}.d'.format(sessionName))
+-    inFile=os.path.join(sessionDir, 'fore.bed')
+-    outFile=os.path.join(sessionDir, 'whichtf.tsv')
++        # 'data/demo/ENCFF719GOE.bed', 'hg19', '-v', '--outFile', 'data/demo/ENCFF719GOE.whichtf.tsv', '--data', '/webapp/whichtf/data', '--overlapSelect', 'bin/overlapSelect'
++        sessionDir=os.path.join(great_results_root, '{}.d'.format(sessionName))
++        inFile=os.path.join(sessionDir, 'fore.bed')
++        outFile=os.path.join(sessionDir, 'whichtf.tsv')
+ 
+-    _, config = parse_argv(
+-        [inFile, assembly, '-v', '--outFile', outFile,
+-        '--data', WhichTF_ref_dir, '--overlapSelect', overlapSelect]
+-    )
++        _, config = parse_argv(
++            [inFile, assembly, '-v', '--outFile', outFile,
++            '--data', WhichTF_ref_dir, '--overlapSelect', overlapSelect]
++        )
+ 
+-    for key, val in config.items_all():
+-        print('{}: {}'.format(key, val))
+-    print('')
++        for key, val in config.items_all():
++            print('{}: {}'.format(key, val))
++        print('')
+ 
+-    ref=whichtf_ref[(assembly, tfbs, ont)]
++        ref=whichtf_ref[(assembly, tfbs, ont)]
+ 
+-    run_task = Run_task_server(
+-        config,
+-        ref.reg_dict, ref.tf_dict, ref.tf_sparse_data,
+-        ref.term_dict, ref.term_sparse_data
+-    )
+-    results = run_task.run()
+-    results.to_csv(config.get('outFile'), index=False, sep='\t')
+-    # write to JSON here.
++        run_task = Run_task_server(
++            config,
++            ref.reg_dict, ref.tf_dict, ref.tf_sparse_data,
++            ref.term_dict, ref.term_sparse_data
++        )
++        results = run_task.run()
++        results.to_csv(config.get('outFile'), index=False, sep='\t')
++        # write to JSON here.
+ 
+-    return '{} {} {} {}'.format(assembly, tfbs, ont, sessionName)
++        return '{} {} {} {}'.format(assembly, tfbs, ont, sessionName)
++except ImportError:
++    pass
