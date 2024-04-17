@@ -1,0 +1,20 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index aba9729..75f162d 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -2,7 +2,7 @@
+ name = "jinja_partials"
+ description = "Simple reuse of partial HTML page templates in the Jinja template language for Python web frameworks."
+ readme = "./README.md"
+-license = "MIT"
++license = {text= "MIT"}
+ requires-python = ">=3.8"
+ keywords = [
+     "web",
+@@ -68,4 +68,4 @@ exclude = [
+     "/build",
+     "/dist",
+     "setup.py",
+-]
+\ No newline at end of file
++]
