@@ -117,6 +117,8 @@
       FileTemp
       PathTools
       DataDumper
+      HTMLParser
+      HTMLTagset
     ];
 in
   stdenv.mkDerivation rec {
