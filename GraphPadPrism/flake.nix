@@ -23,7 +23,7 @@
         srcs = {
           win64 = pkgs.fetchurl {
             url = "https://cdn.graphpad.com/downloads/prism/9/InstallPrism9.msi";
-            sha256 = "sha256-ADCPLp7oMZxRXHKEzlGLNKPTRrr4BY4tP+c9r0KwNgk=";
+            sha256 = "sha256-Euex/EJKezvY59ej0ksA1SbDrDriM4Ib41qbVx2EVCQ=";
           };
         };
         wine = pkgs.wine;
