@@ -28,8 +28,9 @@
           pname = "Subread";
           inherit version;
           src = pkgs.fetchurl {
+            name = "subread-source-${version}.tar.gz";
             url =
-              "mirror://sourceforge/subread/subread-2.0.3/subread-2.0.3-source.tar.gz";
+              "mirror://sourceforge/subread/subread-${version}/subread-${version}-source.tar.gz";
             sha256 = version_hashes.${version};
           };
           nativeBuildInputs = with pkgs; [ zlib ];
