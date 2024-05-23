@@ -22,6 +22,7 @@
       "2.7.9a" = "sha256-p1yaIbSGu8K5AkqJj0BAzuoWsXr25eCNoQmLXYQeg4E=";
       "2.7.10a" = "sha256-qwddCGMOKWgx76qGwRQXwvv9fCSeVsZbWHmlBwEqGKE=";
       "2.7.11b" = "sha256-4EoS9NOKUwfr6TDdjAqr4wGS9cqVX5GYptiOCQpmg9c=";
+        "2.7.11b" = "sha256-4EoS9NOKUwfr6TDdjAqr4wGS9cqVX5GYptiOCQpmg9c="; # does not compile?
     };
   in rec {
     star = forAllSystems (system: version: let
