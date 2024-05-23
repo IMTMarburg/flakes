@@ -41,6 +41,7 @@
             cp * $out/FASTQC -r
             chmod +x $out/FASTQC/fastqc
             mkdir $out/bin -p
+              patchShebangs $out/FASTQC/fastqc
             substituteInPlace $out/FASTQC/fastqc --replace '"java"' '"${pkgs.jdk}/bin/java"'
             cd $out/bin && ln -s $out/FASTQC/fastqc
         '';
