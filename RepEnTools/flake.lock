@@ -1,0 +1,72 @@
+{
+  "nodes": {
+    "fastqc": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "FASTQC",
+        "lastModified": 1715084060,
+        "narHash": "sha256-gZ2k/+wP9MMG/OwROwBg1E7+CgMVmWrbrJ/faaOYadg=",
+        "owner": "IMTMarburg",
+        "repo": "flakes",
+        "rev": "8d50ea4a3e1a1e69ba9f7c1981913e4862ab49ef",
+        "type": "github"
+      },
+      "original": {
+        "dir": "FASTQC",
+        "owner": "IMTMarburg",
+        "repo": "flakes",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1716361217,
+        "narHash": "sha256-mzZDr00WUiUXVm1ujBVv6A0qRd8okaITyUp4ezYRgc4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "46397778ef1f73414b03ed553a3368f0e7e33c2f",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-23.11",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "fastqc": "fastqc",
+        "nixpkgs": "nixpkgs",
+        "subread": "subread"
+      }
+    },
+    "subread": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "Subread",
+        "lastModified": 1715084060,
+        "narHash": "sha256-gZ2k/+wP9MMG/OwROwBg1E7+CgMVmWrbrJ/faaOYadg=",
+        "owner": "IMTMarburg",
+        "repo": "flakes",
+        "rev": "8d50ea4a3e1a1e69ba9f7c1981913e4862ab49ef",
+        "type": "github"
+      },
+      "original": {
+        "dir": "Subread",
+        "owner": "IMTMarburg",
+        "repo": "flakes",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
