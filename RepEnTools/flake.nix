@@ -29,6 +29,7 @@
         mypython = pkgs.python311.withPackages (ps: with ps; [pandas numpy scipy matplotlib seaborn]);
         src_truseq = pkgs.fetchurl {
           url = "https://raw.githubusercontent.com/usadellab/Trimmomatic/main/adapters/TruSeq3-PE.fa";
+          sha256 = "sha256-buANVphwGOhD+k7TdO6qpIUv3eDq6ktUQTHAqhW1364=";
         };
         subread_pkg = subread.defaultPackage.${system};
         fastqc_pkg = fastqc.defaultPackage.${system};
@@ -52,23 +53,26 @@
             chmod +x $out/bin/*
             patchShebangs $out/bin/*
 
-            substituteInPlace $out/bin/ret --replace "source ~/miniconda3/etc/profile.d/conda.sh" "export REPENTOOLS_DIR=\"$out/bin\"" \
+            substituteInPlace $out/bin/ret --replace "source ~/miniconda3/etc/profile.d/conda.sh" "export REPENTOOLS_DIR=\"$out/bin\"
+            ADAPTERS=\"$out/adapters\"
+            set -oeu pipefail
+            " \
                --replace "conda deactivate" "#conda deactivate"  \
                --replace "conda activate" "#conda deactivate" \
                --replace "fastqc " "${fastqc_pkg}/bin/fastqc " \
-               --replace "trimmomatic" "${pkgs.trimmomatic}/bin/trimmomatic" \
-               --replace "hisat2" "${pkgs.hisat2}/bin/hisat2" \
-               --replace "samtools" "${pkgs.samtools}/bin/samtools" \
+               --replace "trimmomatic\\" "${pkgs.trimmomatic}/bin/trimmomatic\\" \
+               --replace "hisat2 " "${pkgs.hisat2}/bin/hisat2 " \
+               --replace "samtools " "${pkgs.samtools}/bin/samtools " \
                --replace "featureCounts" "${subread_pkg}/bin/featureCounts" \
-               --replace "rm $\{MAIN_DIR}/$\{TAG}_multiple_feature_counts.txt" ""
+               --replace "rm $\{MAIN_DIR}/$\{TAG}_multiple_feature_counts.txt" "" \
+               --replace "~/.bashrc" "/dev/null"
 
                substituteInPlace $out/bin/getdata \
-               --replace "unzip" "${pkgs.unzip}/bin/unzip" \
-               --replace "wget" "${pkgs.wget}/bin/wget" \
-          '';
-          postInstall = ''
-            mkdir $out/adapters
-            cp $src_truseq $out/adaptersA/TruSeq3-PE.fa
+               --replace "unzip " "${pkgs.unzip}/bin/unzip " \
+               --replace "wget " "${pkgs.wget}/bin/wget " \
+
+              mkdir $out/adapters
+              cp ${src_truseq} $out/adapters/TruSeq3-PE.fa
           '';
           meta = with pkgs.lib; {
             homepage = "https://github.com/PavelBashtrykov/RepEnTools";
