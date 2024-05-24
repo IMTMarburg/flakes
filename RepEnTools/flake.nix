@@ -62,7 +62,9 @@
                --replace "featureCounts" "${subread_pkg}/bin/featureCounts" \
                --replace "rm $\{MAIN_DIR}/$\{TAG}_multiple_feature_counts.txt" ""
 
-            substituteInPlace $out/bin/getdata --replace "unzip" "${pkgs.unzip}/bin/unzip"
+               substituteInPlace $out/bin/getdata \
+               --replace "unzip" "${pkgs.unzip}/bin/unzip" \
+               --replace "wget" "${pkgs.wget}/bin/wget" \
           '';
           postInstall = ''
             mkdir $out/adapters
