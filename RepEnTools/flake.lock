@@ -37,6 +37,21 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1659914493,
+        "narHash": "sha256-lkA5X3VNMKirvA+SUzvEhfA7XquWLci+CGi505YFAIs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "022caabb5f2265ad4006c1fa5b1ebe69fb0c3faf",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-21.05",
+        "type": "indirect"
+      }
+    },
     "root": {
       "inputs": {
         "fastqc": "fastqc",
@@ -46,17 +61,15 @@
     },
     "subread": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "dir": "Subread",
-        "lastModified": 1715084060,
-        "narHash": "sha256-gZ2k/+wP9MMG/OwROwBg1E7+CgMVmWrbrJ/faaOYadg=",
+        "lastModified": 1716542162,
+        "narHash": "sha256-aTJmpOJUTRG2WG+VUjvS6IhNR4YV8MsYvyR51qaAlME=",
         "owner": "IMTMarburg",
         "repo": "flakes",
-        "rev": "8d50ea4a3e1a1e69ba9f7c1981913e4862ab49ef",
+        "rev": "fee5222b0fce71cd88ae8f44fa8dcb4220881e97",
         "type": "github"
       },
       "original": {

@@ -3,7 +3,7 @@
 
   inputs.nixpkgs.url = "nixpkgs/nixos-23.11"; # I'm pretty sure it will start failing once pands is newer than 1.5.x
   inputs.subread.url = "github:/IMTMarburg/flakes?dir=Subread";
-  inputs.subread.inputs.nixpkgs.follows = "nixpkgs";
+  #inputs.subread.inputs.nixpkgs.follows = "nixpkgs";
   inputs.fastqc.url = "github:/IMTMarburg/flakes?dir=FASTQC";
   inputs.fastqc.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -31,7 +31,7 @@
           url = "https://raw.githubusercontent.com/usadellab/Trimmomatic/main/adapters/TruSeq3-PE.fa";
           sha256 = "sha256-buANVphwGOhD+k7TdO6qpIUv3eDq6ktUQTHAqhW1364=";
         };
-        subread_pkg = subread.defaultPackage.${system};
+        subread_pkg = subread.subread.${system} "2.0.1";
         fastqc_pkg = fastqc.defaultPackage.${system};
       in
         pkgs.stdenv.mkDerivation {
