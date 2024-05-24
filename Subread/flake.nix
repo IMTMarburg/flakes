@@ -18,6 +18,7 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
       version_hashes = {
+        "2.0.1" = "sha256-2AjrWxgjxXLLRal8laPFrLPY4pqkfsdOPKHrNFeHwXs=";
         "2.0.3" = "sha256-Vs7zovkU1DJxMGnVwoL0iDHDoezIlDKtVYDKoyKl9Ws=";
       };
 
