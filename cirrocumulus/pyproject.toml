@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "cic"
+version = "0.1.0"
+description = ""
+authors = ["Florian Finkernagel <finkernagel@imt.uni-marburg.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+cirrocumulus = "^1.1.57"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
