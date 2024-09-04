@@ -28,14 +28,26 @@
       #     find .
       #   '';
       # });
+      legacy-api-wrap = prev.legacy-api-wrap.overridePythonAttrs (old: {
+        buildInputs = old.buildInputs ++ [pkgs.python3Packages.hatchling];
+      });
+      session-info = prev.session-info.overridePythonAttrs (old: {
+        buildInputs = old.buildInputs ++ [pkgs.python3Packages.setuptools];
+      });
 
       pymongo = prev.pymongo.overridePythonAttrs (oldAttrs: {
         buildInputs = oldAttrs.buildInputs ++ [pkgs.python3Packages.hatchling pkgs.python3Packages.hatch-requirements-txt];
+      });
+      scanpy = prev.scanpy.overridePythonAttrs (oldAttrs: {
+        buildInputs = oldAttrs.buildInputs ++ [pkgs.python3Packages.hatchling pkgs.python3Packages.hatch-vcs];
       });
 
       numcodecs = prev.numcodecs.overridePythonAttrs (oldAttrs: {
         buildInputs = oldAttrs.buildInputs ++ [final.py-cpuinfo];
       });
+      contourpy = prev.contourpy.override {
+        preferWheel = true;
+      };
     }
   )
 ]

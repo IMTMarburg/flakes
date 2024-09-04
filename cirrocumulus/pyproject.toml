@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.11"
 cirrocumulus = "^1.1.57"
 scanpy="^1.10.2"
+numba="<0.60"
+contourpy="1.2.1"
 
 
 [build-system]
