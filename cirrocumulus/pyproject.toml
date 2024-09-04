@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 cirrocumulus = "^1.1.57"
+scanpy="^1.10.2"
 
 
 [build-system]
