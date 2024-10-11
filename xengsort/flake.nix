@@ -52,7 +52,7 @@
       pythonSet.mkVirtualEnv "test-venv" spec;
   in {
     packages.x86_64-linux.default = defaultPackage;
-    devShell = pkgs.mkShell {
+    devShell.x86_64-linux = pkgs.mkShell {
       packages = [
         defaultPackage
       ];
