@@ -47,11 +47,21 @@
 
       # Override host packages with build fixups
       pythonSet = pythonSet'.pythonPkgsHostHost.overrideScope pyprojectOverrides;
+      virtualEnv = pythonSet.mkVirtualEnv "xengsort-venv" spec;
     in
-      # Render venv
-      pythonSet.mkVirtualEnv "test-venv" spec;
+      pkgs.stdenv.mkDerivation {
+        name = "xengsort";
+        buildInputs = [
+          virtualEnv
+        ];
+        unpackPhase = ":";
+        buildPhase = ''
+          mkdir $out/bin -p
+          ln -s ${virtualEnv}/bin/xengsort $out/bin/xengsort
+        '';
+      };
   in {
-    packages.x86_64-linux.defaultPackage = defaultPackage;
+    packages.x86_64-linux.default = defaultPackage;
     devShell.x86_64-linux = pkgs.mkShell {
       packages = [
         defaultPackage
