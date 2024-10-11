@@ -54,10 +54,11 @@
         buildInputs = [
           virtualEnv
         ];
+        nativeBuildInputs = [pkgs.makeWrapper]; # provides a hook / shell function
         unpackPhase = ":";
         buildPhase = ''
           mkdir $out/bin -p
-          ln -s ${virtualEnv}/bin/xengsort $out/bin/xengsort
+          makeWrapper  ${virtualEnv}/bin/xengsort $out/bin/xengsort --prefix PATH : ${pkgs.pigz}/bin
         '';
       };
   in {
