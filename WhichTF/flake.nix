@@ -3,7 +3,7 @@
   # why don't we just add it to tto a float and compare to <3.6
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
+    nixpkgs.url = "nixpkgs/nixos-24.05";
     flake-utils = {
       url = "github:numtide/flake-utils?rev=7e5bf3925f6fbdfaf50a2a7ca0be2879c4261d19";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,10 +20,7 @@
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system: import nixpkgs {inherit system;});
-  in {
-    defaultPackage = forAllSystems (system: let
-      pkgs = nixpkgsFor.${system};
-    in
+    whichtf = pkgs:
       pkgs.python3Packages.buildPythonApplication {
         pname = "WhichTF";
         version = "0.2"; # must match your git hash
@@ -34,11 +31,11 @@
           sha256 = "sha256-spG6J//EvAlDPU4i5ajFDmKOSo19V/5cpM+7w1e4GoM=";
         };
         buildInputs = [pkgs.R];
-        propagatedBuildInputs = with pkgs.python3.pkgs; [numpy pandas scipy nose pip];
+        dependencies = (with pkgs.python3.pkgs; [numpy pandas scipy nose pip]);
         patches = [./patch_rpy2_dependency.patch];
         hg38 = pkgs.fetchurl {
           url = "http://bejerano.stanford.edu/whichtf/reference_data/current/hg38.tar.gz";
-          sha256 ="sha256-xsVkmYq5MYh1TeTgZ+Xx9bo+O9+xMYbgZb1AqAvymco=";
+          sha256 = "sha256-xsVkmYq5MYh1TeTgZ+Xx9bo+O9+xMYbgZb1AqAvymco=";
         };
         postInstall = ''
           mkdir -p $out/data
@@ -47,6 +44,23 @@
 
         # automatic requirements extraction fails, just like MACS is not in pypi-deps-db because of
         # stupid setup.py wizzardry
-      });
+      };
+    pythonEnv = pkgs: pkgs.python3.withPackages (ps: [ps.requests]);
+  in {
+    defaultPackage = forAllSystems (
+      system: let
+        pkgs = nixpkgsFor.${system};
+      in
+        whichtf pkgs
+    );
+    devShell = forAllSystems (
+      system: let
+        pkgs = nixpkgsFor.${system};
+      in
+        pkgs.mkShell {
+          packages = [(whichtf pkgs) (pythonEnv pkgs)
+        ];
+        }
+    );
   };
 }
