@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mageck_wrapper"
+version = "0.1.0"
+description = ""
+authors = ["Florian Finkernagel <finkernagel@imt.uni-marburg.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mageck = {git = "https://bitbucket.org/liulab/mageck.git"}
+numpy = "<2"
+scipy = "^1.14.1"
+matplotlib = "^3.9.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
