@@ -2,17 +2,17 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1731417335,
-        "narHash": "sha256-a2MRQ62FmEjJ26u3OqIxvPxj25N6UykpsT7h+Z/eu9g=",
+        "lastModified": 1730205792,
+        "narHash": "sha256-/j+mbagcQmO8SLi82LldkHeFybyHSF924GVyjYlc01M=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "03bf2d9300890eab1cd7e574fbbb02dd2858aa99",
+        "rev": "684a8fe32d4b7973974e543eed82942d2521b738",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "master",
         "repo": "nixpkgs",
+        "rev": "684a8fe32d4b7973974e543eed82942d2521b738",
         "type": "github"
       }
     },
@@ -115,11 +115,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1731375416,
-        "narHash": "sha256-foYwh+QEgda8EuymxOydvkv5nVaVsPW7yN0/CLLDCM0=",
+        "lastModified": 1731455524,
+        "narHash": "sha256-6uAgsZC5CChUtbLb9+MnNxhwL8uITbEh5zhPtQC3u8E=",
         "owner": "adisbladis",
         "repo": "uv2nix",
-        "rev": "3f1bfa56f3acd32762690a1b6362f75d30748cab",
+        "rev": "e68500c8353abaab5bf2c789105eebd9e435fe76",
         "type": "github"
       },
       "original": {
@@ -135,11 +135,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1731419130,
-        "narHash": "sha256-rkgBf/A2y3ovU2a1VqZPQ5XP3A8KXFAmYXG/sFfIehY=",
+        "lastModified": 1731501319,
+        "narHash": "sha256-+/QodH1kPLeuMZMhipWonmvJwZyVEvjUsFrrUQ+ujkY=",
         "owner": "TyberiusPrime",
         "repo": "uv2nix_hammer_overrides",
-        "rev": "bdb155677967fcca14709d5307b1900ef021f6a3",
+        "rev": "396076509456d5084b418178c71652c004e12ca7",
         "type": "github"
       },
       "original": {

@@ -1,0 +1,46 @@
+{ lib
+, python3
+, fetchPypi
+}:
+
+python3.pkgs.buildPythonApplication rec {
+  pname = "llm-ollama";
+  version = "0.7.0";
+  pyproject = true;
+
+  src = fetchPypi {
+    pname = "llm_ollama";
+    inherit version;
+    hash = "sha256-fldwbbPdcyReyQ1IWcgtNxfMrkliuwOOwnvrNYp3i7A=";
+  };
+
+  nativeBuildInputs = [
+    python3.pkgs.setuptools
+    python3.pkgs.wheel
+  ];
+
+  propagatedBuildInputs = with python3.pkgs; [
+    llm
+    ollama
+    pydantic
+  ];
+
+  passthru.optional-dependencies = with python3.pkgs; {
+    lint = [
+      black
+    ];
+    test = [
+      pytest
+    ];
+  };
+
+  pythonImportsCheck = [ "llm_ollama" ];
+
+  meta = with lib; {
+    description = "LLM plugin providing access to local Ollama models";
+    homepage = "https://pypi.org/projects/llm-ollama";
+    license = licenses.asl20;
+    maintainers = with maintainers; [ ];
+    mainProgram = "llm-ollama";
+  };
+}

@@ -1,7 +1,7 @@
 {
   description = "scGraphformer for clustering scRNAseq data.";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/684a8fe32d4b7973974e543eed82942d2521b738";
     uv2nix.url = "github:/adisbladis/uv2nix";
     uv2nix.inputs.nixpkgs.follows = "nixpkgs";
     pyproject-nix.url = "github:/nix-community/pyproject.nix";
