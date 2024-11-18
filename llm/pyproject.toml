@@ -1,0 +1,8 @@
+[project]
+name = "llm-wrapper"
+version = "0.1.0"
+description = "Learn to build llm"
+requires-python = "~=3.12"
+dependencies = [
+	"llm","llm-ollama"
+]
