@@ -1,0 +1,12 @@
+
+[project]
+name = "uv2nix-hammer-app"
+version = "0.1.0"
+description = "cellstates for scRNAseq"
+requires-python = "~=3.12,<3.13"
+dependencies = [
+	"cellstates",
+]
+
+[tool.uv.sources]
+cellstates = { git = "https://github.com/TyberiusPrime/cellstates" }

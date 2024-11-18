@@ -28,9 +28,6 @@
       };
       #pyprojectOverrides = uv2nix_hammer_overrides.overrides pkgs;
       pyprojectOverrides = final: prev: {
-        suppa = prev.suppa.overrideAttrs (
-          old: {buildInputs = old.buildInputs or [] ++ [(final.resolveBuildSystem {setuptools = [];})];}
-        );
       };
       interpreter = pkgs.python312;
       spec = {
@@ -50,26 +47,20 @@
       virtualEnv = pythonSet.mkVirtualEnv "suppa-venv" spec;
     in
       pkgs.stdenv.mkDerivation rec {
-        pname = "SUPPA";
+        pname = "cellstates";
         version = "2.4";
-        src = pkgs.fetchurl {
-          url = "https://github.com/comprna/SUPPA/archive/refs/tags/v2.4.tar.gz";
-          sha256 = "sha256-pxswF90TzrS4uDffriAes7xV+xHfyyAUNPb/HkczCTw=";
+        src = pkgs.fetchFromGithub {
+          owner = "nimwegenLab";
+          repo = "cellstates";
+          rev = "a7f82a2838d772025d9a50576789d547d1363924";
         };
         buildInputs = [
           virtualEnv
         ];
-        nativeBuildInputs = [pkgs.makeWrapper]; # provides a hook / shell function
-        unpackPhase = ":";
         buildPhase = ''
-          mkdir $out/bin -p
-          cat <<EOF > $out/bin/suppa
-          #!${pkgs.bash}/bin/bash
-          PYTHONPATH=$PYTHONPATH:$out/suppa/lib ${virtualEnv}/bin/python $out/suppa/SUPPA-2.4/suppa.py \$@
-          EOF
-          chmod +x $out/bin/suppa
-          mkdir $out/suppa -p
-          cd $out/suppa && tar xf $src
+        mkdir $out/bin -p
+        ls -la ${virtualEnv}/bin/
+        aoeusc
         '';
       };
   in {
