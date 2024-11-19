@@ -28,6 +28,19 @@
       };
       #pyprojectOverrides = uv2nix_hammer_overrides.overrides pkgs;
       pyprojectOverrides = final: prev: {
+        cellstates = prev.cellstates.overrideAttrs (old: {
+          nativeBuildInputs =
+            old.nativeBuildInputs
+            ++ [
+              (final.resolveBuildSystem {
+                setuptools = [];
+                numpy = [];
+                cython = [];
+                scipy = [];
+              })
+            ];
+        });
+        ete3 = prev.ete3.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [(final.resolveBuildSystem {setuptools = [];})];});
       };
       interpreter = pkgs.python312;
       spec = {
@@ -44,23 +57,19 @@
 
       # Override host packages with build fixups
       pythonSet = pythonSet'.pythonPkgsHostHost.overrideScope pyprojectOverrides;
-      virtualEnv = pythonSet.mkVirtualEnv "suppa-venv" spec;
+      virtualEnv = pythonSet.mkVirtualEnv "cellstates" spec;
     in
-      pkgs.stdenv.mkDerivation rec {
+      pkgs.stdenv.mkDerivation {
         pname = "cellstates";
         version = "2.4";
-        src = pkgs.fetchFromGithub {
-          owner = "nimwegenLab";
-          repo = "cellstates";
-          rev = "a7f82a2838d772025d9a50576789d547d1363924";
-        };
         buildInputs = [
           virtualEnv
         ];
+        nativeBuildInputs = [pkgs.makeWrapper]; # provides a hook / shell function
+        unpackPhase = ":";
         buildPhase = ''
-        mkdir $out/bin -p
-        ls -la ${virtualEnv}/bin/
-        aoeusc
+          makeWrapper  ${virtualEnv}/bin/cellstates $out/bin/cellstates 
+          makeWrapper  ${virtualEnv}/bin/cellstates_add_dataset $out/bin/cellstates_add_dataset 
         '';
       };
   in {
