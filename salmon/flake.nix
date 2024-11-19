@@ -19,6 +19,8 @@
     nixpkgsFor = forAllSystems (system: import nixpkgs {inherit system;});
     salmon_version_hashes = {
       "1.9.0" = "sha256-gk/gnXIPEL6luEzwIBhZG75gTJHh9AGYYOl8Qz78pac=";
+      "1.10.0" = "sha256-Qtzeo1dO6g0a5qvUK8jcELT3EoOnpNY5Wj6e1/AVoPo=";
+
     };
     pufferfish_version_hashes = {
     };
@@ -76,6 +78,6 @@
     #       # '';
     #     }
     # );
-    defaultPackage = forAllSystems (system: (salmon.${system} "1.9.0"));
+    defaultPackage = forAllSystems (system: (salmon.${system} "1.10.0"));
   };
 }
