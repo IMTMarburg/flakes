@@ -18,14 +18,14 @@
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system: import nixpkgs {inherit system;});
     version_hashes = {
-      "7e76dd8b09562114998eb3cd967a7f893d8d9ab2" = "sha256-vV6eKQhK7y4G5865V7/NtSSWirbXmRxnlKSmO4Cr958=";
+      "593d6d8d26fddfe2287e36a673e4a8a9ba46ebcd" = "sha256-T96F8xgB9HRwuvDLXi6+lfi8za/iNn1NAbG4AIpE0V0=";
     };
   in rec {
     py-spy = forAllSystems (system: version: let
       pkgs = nixpkgsFor.${system};
     in
       pkgs.rustPlatform.buildRustPackage rec {
-        pname = "py-sy";
+        pname = "py-py";
         inherit version;
         src = pkgs.fetchFromGitHub {
           owner = "benfred";
@@ -33,7 +33,7 @@
           rev = version;
           sha256 = version_hashes.${version};
         };
-        cargoSha256 = "sha256-DLAA3sYsFUrkxZOCrLc3izVIpKXbiNzADXgTHFm/+F8=";
+        cargoSha256 = "sha256-nBvw9gKetX0x4boyp+h8SDpH0M0x8RhOEVsYeFWutnI=";
 
         env.NIX_CFLAGS_COMPILE = "-L${pkgs.libunwind}/lib";
         checkFlags =
@@ -55,6 +55,6 @@
         ];
       });
 
-    defaultPackage = forAllSystems (system: (py-spy.${system} "7e76dd8b09562114998eb3cd967a7f893d8d9ab2"));
+    defaultPackage = forAllSystems (system: (py-spy.${system} "593d6d8d26fddfe2287e36a673e4a8a9ba46ebcd"));
   };
 }
