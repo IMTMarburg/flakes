@@ -33,7 +33,7 @@
           rev = version;
           sha256 = version_hashes.${version};
         };
-        cargoSha256 = "sha256-nBvw9gKetX0x4boyp+h8SDpH0M0x8RhOEVsYeFWutnI=";
+        cargoHash = "sha256-nBvw9gKetX0x4boyp+h8SDpH0M0x8RhOEVsYeFWutnI=";
 
         env.NIX_CFLAGS_COMPILE = "-L${pkgs.libunwind}/lib";
         checkFlags =
