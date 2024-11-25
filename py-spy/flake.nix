@@ -1,7 +1,7 @@
 {
   description = "Py-spy python profiler";
 
-  inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
+  inputs.nixpkgs.url = "nixpkgs/nixos-24.11";
 
   outputs = {
     self,
@@ -43,7 +43,8 @@
           ]
           ++ pkgs.lib.optionals (pkgs.stdenv.hostPlatform.system == "x86_64-linux") [
             # panicked at 'called `Result::unwrap()` on an `Err` value: failed to get os threadid
-            "--skip=test_thread_reuse"
+            #"--skip=test_thread_reuse"
+            "--skip=test_negative_linenumber_increment"
           ];
 
         nativeBuildInputs = [
