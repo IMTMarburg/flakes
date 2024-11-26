@@ -1,7 +1,7 @@
-diff --git a/lib/cluster_tools.py b/lib/cluster_tools.py
+diff --git SUPPA-2.4/lib/cluster_tools.py SUPPA-2.4/lib/cluster_tools.py
 index f4d5cf8..0891b55 100644
---- a/lib/cluster_tools.py
-+++ b/lib/cluster_tools.py
+--- SUPPA-2.4/lib/cluster_tools.py
++++ SUPPA-2.4/lib/cluster_tools.py
 @@ -149,6 +149,7 @@ def DBSCAN_cluster(psi_matrix, eventid_lst, dist, minpts, metric):
          labels = db.labels_
      except:
@@ -10,24 +10,22 @@ index f4d5cf8..0891b55 100644
          sys.exit(1)
  
      eventid_labels_dict = {k: v for k, v in zip(eventid_lst, labels)}
-diff --git a/lib/diff_tools.py b/lib/diff_tools.py
-index 18d9189..344db4e 100644
---- a/lib/diff_tools.py
-+++ b/lib/diff_tools.py
-@@ -663,7 +663,9 @@ def multiple_conditions_analysis(method, psi_lst, tpm_lst, ioe, area, cutoff, pa
-             corrected_pvals_dict = multiple_test_correction(event_lst, uncorrected_pvals, alpha)
+diff --git SUPPA-2.4/lib/diff_tools.py SUPPA-2.4/lib/diff_tools.py
+index 18d9189..cc3000f 100644
+--- SUPPA-2.4/lib/diff_tools.py
++++ SUPPA-2.4/lib/diff_tools.py
+@@ -664,6 +664,7 @@ def multiple_conditions_analysis(method, psi_lst, tpm_lst, ioe, area, cutoff, pa
  
          else:
-+            raise
              logger.error("Unknown error: {}".format(sys.exc_info()))
 +            raise
              sys.exit(1)
  
          pvals_dict = {k: v for k, v in zip(event_lst, uncorrected_pvals)}
-diff --git a/lib/tools.py b/lib/tools.py
-index a6c33d3..e2369d0 100644
---- a/lib/tools.py
-+++ b/lib/tools.py
+diff --git SUPPA-2.4/lib/tools.py SUPPA-2.4/lib/tools.py
+index a6c33d3..1c6b0e9 100644
+--- SUPPA-2.4/lib/tools.py
++++ SUPPA-2.4/lib/tools.py
 @@ -104,6 +104,7 @@ class Parser(object):
              return False
          except BaseException:
@@ -36,10 +34,110 @@ index a6c33d3..e2369d0 100644
              sys.exit(1)
  
  
-diff --git a/psiCalculator.py b/psiCalculator.py
+@@ -146,6 +147,7 @@ class IoeParser(Parser):
+             return False
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1) 
+             
+             
+@@ -194,6 +196,7 @@ class ExpressionParser(Parser):
+             return False
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1) 
+             
+ 
+@@ -233,6 +236,7 @@ class PsiParser(Parser):
+             return False
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+ 
+@@ -272,6 +276,7 @@ class TpmParser(Parser):
+             return False
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+ 
+@@ -328,6 +333,7 @@ class Reader(object):
+             logger.info("File %s closed." % self._pipe.name)
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+         
+@@ -360,6 +366,7 @@ class IoeReader(Reader, IoeParser):
+             logger.info("File %s closed." % self._pipe.name)
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+ 
+@@ -405,6 +412,7 @@ class ExpressionReader(Reader, ExpressionParser):
+             logger.info("File %s closed." % self._pipe.name)    
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+ 
+@@ -416,6 +424,7 @@ class FactoryReader(object):
+             return ExpressionReader()
+         else:
+             logger.error("Unknown reader:" + fileFormat)
++            raise
+             sys.exit(1)
+ 
+ 
+@@ -434,6 +443,7 @@ class Writer(object):
+             self.lineNumber = 0    
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+     def writeLine(self, line, parse = True):
+@@ -452,6 +462,7 @@ class Writer(object):
+                 self.lineNumber += 1
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+     @staticmethod
+@@ -466,9 +477,11 @@ class Writer(object):
+                 return TpmWriter()
+             else:
+                 logger.error("Unknown writer:" + fileFormat)
++                raise
+                 sys.exit(1)
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+     def closeFile(self):
+@@ -476,6 +489,7 @@ class Writer(object):
+             self._pipe.close()
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+ 
+diff --git SUPPA-2.4/psiCalculator.py SUPPA-2.4/psiCalculator.py
 index 996ec9f..55f2f0e 100644
---- a/psiCalculator.py
-+++ b/psiCalculator.py
+--- SUPPA-2.4/psiCalculator.py
++++ SUPPA-2.4/psiCalculator.py
 @@ -179,8 +179,9 @@ def main():
  
      except BaseException:
@@ -52,11 +150,19 @@ index 996ec9f..55f2f0e 100644
 -    main()
 \ No newline at end of file
 +    main()
-diff --git a/suppa.py b/suppa.py
-index 8fa0bc8..0683e1e 100644
---- a/suppa.py
-+++ b/suppa.py
-@@ -96,6 +96,7 @@ def main():
+diff --git SUPPA-2.4/suppa.py SUPPA-2.4/suppa.py
+index 8fa0bc8..414dcd7 100644
+--- SUPPA-2.4/suppa.py
++++ SUPPA-2.4/suppa.py
+@@ -5,6 +5,7 @@ Created on Wed Aug 06 17:51:05 2014
+ @author: Gael P Alamancos
+ @email: gael.perez[at]upf.edu
+ """
++print("patched suppa")
+ 
+ import fileMerger as joinFiles
+ import psiPerGene as psiPerIsoform
+@@ -96,6 +97,7 @@ def main():
              joinFiles.main()
      except Exception:
          logger.error("Unknown error: {}".format(sys.exc_info()))

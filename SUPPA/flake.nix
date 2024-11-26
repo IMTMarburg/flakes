@@ -28,12 +28,6 @@
       };
       #pyprojectOverrides = uv2nix_hammer_overrides.overrides pkgs;
       pyprojectOverrides = final: prev: {
-        suppa = prev.suppa.overrideAttrs (
-          old: {
-            patches = [./debug.patch];
-            buildInputs = old.buildInputs or [] ++ [(final.resolveBuildSystem {setuptools = [];})];
-          }
-        );
       };
       interpreter = pkgs.python312;
       spec = {
@@ -62,17 +56,18 @@
         buildInputs = [
           virtualEnv
         ];
+        patches = [./debug.patch];
         nativeBuildInputs = [pkgs.makeWrapper]; # provides a hook / shell function
-        unpackPhase = ":";
+        #unpackPhase = ":";
         buildPhase = ''
           mkdir $out/bin -p
           cat <<EOF > $out/bin/suppa
           #!${pkgs.bash}/bin/bash
-          PYTHONPATH=$PYTHONPATH:$out/suppa/lib ${virtualEnv}/bin/python $out/suppa/SUPPA-2.4/suppa.py \$@
+          PYTHONPATH=$PYTHONPATH:$out/suppa/lib ${virtualEnv}/bin/python $out/suppa/suppa.py \$@
           EOF
           chmod +x $out/bin/suppa
           mkdir $out/suppa -p
-          cd $out/suppa && tar xf $src
+          cp  * $out/suppa -r
         '';
       };
   in {
