@@ -1,0 +1,12 @@
+diff --git a/lib/diff_tools.py b/lib/diff_tools.py
+index 18d9189..8790d86 100644
+--- a/lib/diff_tools.py
++++ b/lib/diff_tools.py
+@@ -663,6 +663,7 @@ def multiple_conditions_analysis(method, psi_lst, tpm_lst, ioe, area, cutoff, pa
+             corrected_pvals_dict = multiple_test_correction(event_lst, uncorrected_pvals, alpha)
+ 
+         else:
++            raise
+             logger.error("Unknown error: {}".format(sys.exc_info()))
+             sys.exit(1)
+ 

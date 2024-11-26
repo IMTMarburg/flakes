@@ -29,7 +29,10 @@
       #pyprojectOverrides = uv2nix_hammer_overrides.overrides pkgs;
       pyprojectOverrides = final: prev: {
         suppa = prev.suppa.overrideAttrs (
-          old: {buildInputs = old.buildInputs or [] ++ [(final.resolveBuildSystem {setuptools = [];})];}
+          old: {
+            patches = [./debug.patch];
+            buildInputs = old.buildInputs or [] ++ [(final.resolveBuildSystem {setuptools = [];})];
+          }
         );
       };
       interpreter = pkgs.python312;
