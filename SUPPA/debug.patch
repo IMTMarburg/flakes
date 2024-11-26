@@ -1,12 +1,66 @@
+diff --git a/lib/cluster_tools.py b/lib/cluster_tools.py
+index f4d5cf8..0891b55 100644
+--- a/lib/cluster_tools.py
++++ b/lib/cluster_tools.py
+@@ -149,6 +149,7 @@ def DBSCAN_cluster(psi_matrix, eventid_lst, dist, minpts, metric):
+         labels = db.labels_
+     except:
+         logger.error("Unknown error: {}".format(sys.exc_info()))
++        raise
+         sys.exit(1)
+ 
+     eventid_labels_dict = {k: v for k, v in zip(eventid_lst, labels)}
 diff --git a/lib/diff_tools.py b/lib/diff_tools.py
-index 18d9189..8790d86 100644
+index 18d9189..344db4e 100644
 --- a/lib/diff_tools.py
 +++ b/lib/diff_tools.py
-@@ -663,6 +663,7 @@ def multiple_conditions_analysis(method, psi_lst, tpm_lst, ioe, area, cutoff, pa
+@@ -663,7 +663,9 @@ def multiple_conditions_analysis(method, psi_lst, tpm_lst, ioe, area, cutoff, pa
              corrected_pvals_dict = multiple_test_correction(event_lst, uncorrected_pvals, alpha)
  
          else:
 +            raise
              logger.error("Unknown error: {}".format(sys.exc_info()))
++            raise
              sys.exit(1)
  
+         pvals_dict = {k: v for k, v in zip(event_lst, uncorrected_pvals)}
+diff --git a/lib/tools.py b/lib/tools.py
+index a6c33d3..e2369d0 100644
+--- a/lib/tools.py
++++ b/lib/tools.py
+@@ -104,6 +104,7 @@ class Parser(object):
+             return False
+         except BaseException:
+             logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++            raise
+             sys.exit(1)
+ 
+ 
+diff --git a/psiCalculator.py b/psiCalculator.py
+index 996ec9f..55f2f0e 100644
+--- a/psiCalculator.py
++++ b/psiCalculator.py
+@@ -179,8 +179,9 @@ def main():
+ 
+     except BaseException:
+         logger.error("Unknown error: %s" % sys.exc_info()[1].args[0])
++        raise
+         sys.exit(1)
+     logger.info("Done")
+ 
+ if __name__ == '__main__':
+-    main()
+\ No newline at end of file
++    main()
+diff --git a/suppa.py b/suppa.py
+index 8fa0bc8..0683e1e 100644
+--- a/suppa.py
++++ b/suppa.py
+@@ -96,6 +96,7 @@ def main():
+             joinFiles.main()
+     except Exception:
+         logger.error("Unknown error: {}".format(sys.exc_info()))
++        raise
+         sys.exit(1)
+         
+ if __name__ == '__main__':
