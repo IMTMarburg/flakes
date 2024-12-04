@@ -60,11 +60,12 @@
         installPhase = ":";
       };
   in {
-    defaultPackage = forAllSystems (
+    packages = forAllSystems (
       system: let
         pkgs = nixpkgsFor.${system};
-      in
-        rMats pkgs
+      in {
+        default = rMats pkgs;
+      }
     );
     devShell = forAllSystems (
       system: let
