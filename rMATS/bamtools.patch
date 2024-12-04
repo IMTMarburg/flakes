@@ -1,0 +1,13 @@
+diff --git a/rMATS_pipeline/setup.py b/rMATS_pipeline/setup.py
+index 6090c75..1918f97 100644
+--- a/rMATS_pipeline/setup.py
++++ b/rMATS_pipeline/setup.py
+@@ -5,7 +5,7 @@ from Cython import __version__ as cython_version
+ from Cython.Build import cythonize
+ from Cython.Distutils import build_ext
+ 
+-bamtools_include = [os.path.abspath('../bamtools/include'),]
++bamtools_include = [os.path.abspath('../bamtools/src'),]
+ bamtools_lib = [os.path.abspath('../bamtools/lib'),]
+ source_pattern = 'rmatspipeline/%s.pyx'
+ 
