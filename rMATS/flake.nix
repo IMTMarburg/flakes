@@ -23,7 +23,7 @@
       version = "4.3.0";
       rMats_pipeline = pkgs.python310Packages.buildPythonPackage {
         pname = "rmats-pipeline";
-        patches = [./bamtools.patch];
+        patches = [./bamtools.patch ./python_module.patch];
         inherit version src;
         preConfigure = ''
           cd rMATS_pipeline

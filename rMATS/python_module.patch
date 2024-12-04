@@ -1,26 +1,36 @@
 diff --git a/rMATS_pipeline/setup.py b/rMATS_pipeline/setup.py
-index 6090c75..1918f97 100644
+index 6090c75..0dcca44 100644
 --- a/rMATS_pipeline/setup.py
 +++ b/rMATS_pipeline/setup.py
-@@ -5,7 +5,7 @@ from Cython import __version__ as cython_version
- from Cython.Build import cythonize
- from Cython.Distutils import build_ext
- 
--bamtools_include = [os.path.abspath('../bamtools/include'),]
-+bamtools_include = [os.path.abspath('../bamtools/src'),]
- bamtools_lib = [os.path.abspath('../bamtools/lib'),]
+@@ -10,7 +10,7 @@ bamtools_lib = [os.path.abspath('../bamtools/lib'),]
  source_pattern = 'rmatspipeline/%s.pyx'
  
+ asevent_ext = [
+-    Extension('rmats.rmatspipeline', sources=[source_pattern % "rmatspipeline"],
++    Extension('rmatsc.rmatspipeline', sources=[source_pattern % "rmatspipeline"],
+               include_dirs=bamtools_include,
+               libraries=['m','stdc++','bamtools','z'],
+               library_dirs=bamtools_lib,
+@@ -31,7 +31,7 @@ if cython_version.startswith('3'):
+     compiler_directives['legacy_implicit_noexcept'] = True
+ 
+ setup(
+-    name = 'rmats.rmatspipeline',
++    name = 'rmatsc',
+     ext_modules = cythonize(asevent_ext, compiler_directives=compiler_directives),
+     cmdclass = {'build_ext': build_ext},
+ )
 diff --git a/rmats.py b/rmats.py
-index 637baa5..63bff77 100644
+index 637baa5..f27af4b 100644
 --- a/rmats.py
 +++ b/rmats.py
-@@ -16,7 +16,7 @@ import subprocess
+@@ -16,7 +16,8 @@ import subprocess
  import shutil
  import time
  from datetime import datetime
 -from rmatspipeline import run_pipe
-+from rmats.rmatspipeline import run_pipe
++print(sys.path)
++from rmatsc.rmatspipeline import run_pipe
  
  
  VERSION = 'v4.3.0'
