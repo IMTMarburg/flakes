@@ -56,6 +56,8 @@
           ln -s ${rMats_C}/bin/rMATSexe $out/bin/
           cp rMATS_R $out/bin -r
           cp rMATS_P $out/bin -r
+          mkdir $out/bin/rMATS_C
+          mv $out/bin/rMATSexe $out/bin/rMATS_C
         '';
         installPhase = ":";
       };
