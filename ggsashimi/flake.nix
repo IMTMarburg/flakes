@@ -47,6 +47,7 @@
             substituteInPlace $out/bin/ggsashimi.py --replace "element_line(size" "element_line(linewidth"
             # fix shebang
           '';
+          buildInputs = ["dejavu_fonts"];
           propagatedBuildInputs = [
             (pkgs.python3.withPackages (ps: with ps; [pysam]))
           ];
