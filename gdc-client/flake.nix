@@ -2,7 +2,7 @@
   description = "flake for gdc-client";
 
   # Nixpkgs / NixOS version to use.
-  inputs.nixpkgs.url = "nixpkgs/nixos-21.11";
+  inputs.nixpkgs.url = "nixpkgs/nixos-24.11";
   # this line assume that you also have nixpkgs as an input
 
   outputs = { self, nixpkgs }:
@@ -24,21 +24,22 @@
         let pkgs = nixpkgsFor.${system};
         in pkgs.stdenv.mkDerivation rec {
           pname = "gdc-client";
-          version = "1.6.1";
+          version = "2.3.0";
           src = pkgs.fetchzip {
             url =
-              "https://gdc.cancer.gov/files/public/file/gdc-client_v1.6.1_Ubuntu_x64.zip";
+              "https://gdc.cancer.gov/system/files/public/file/gdc-client_2.3_Ubuntu_x64-py3.8-ubuntu-20.04.zip";
             sha256 =
-              "sha256-fimW3cnHWv7XnWfzcKqgYefkhYK66/TV36a5uq5K5wk=";
+              "sha256-tb6i7T5i/xMLIIsUQK8NvLPCC+gg9/OeBU7KSaWb068=";
           };
           #autoPatchelfIgnoreMissingDeps=true; # libidn.11 - but nixpkgs has .12
           nativeBuildInputs = with pkgs; [
             autoPatchelfHook
             zlib
                     ];
-          buildPhase = "";
+          buildPhase = "${pkgs.unzip}/bin/unzip gdc-client_2.3_Ubuntu_x64.zip";
           installPhase = ''
             mkdir $out/bin -p
+            ls -la
             cp gdc-client $out/bin
           '';
         });
