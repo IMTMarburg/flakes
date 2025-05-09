@@ -20,7 +20,7 @@
     defaultPackage = forAllSystems (
       system: let
         pkgs = nixpkgsFor.${system};
-        mypython = pkgs.python3.withPackages (ps: with ps; [numpy scipy openpyxl pandas]);
+        mypython = pkgs.python3.withPackages (ps: with ps; [numpy scipy openpyxl pandas rich]);
       in
         pkgs.stdenv.mkDerivation rec {
           pname = "SCSA";
