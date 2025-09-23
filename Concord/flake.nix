@@ -57,7 +57,7 @@
           pyprojectOverrides = pkgs.lib.composeManyExtensions [
             pyproject-build-systems.overlays.default
             overlay # this order is important!
-            (uv2nix_hammer_overrides.overrides_debug pkgs)
+            (uv2nix_hammer_overrides.overrides pkgs)
             user_overrides
           ];
 
@@ -72,7 +72,15 @@
           pythonSet = pythonSet'.pythonPkgsHostHost.overrideScope pyprojectOverrides;
           virtualEnv = pythonSet.mkVirtualEnv "concord-venv" spec;
         in
-        virtualEnv;
+        pkgs.stdenv.mkDerivation {
+          name = "concord";
+          buildInputs = [ virtualEnv ];
+          unpackPhase = ":";
+          installPhase = ''
+            mkdir -p $out/bin
+            ln -s ${virtualEnv}/bin/python $out/bin/condord_python
+          '';
+        };
     in
     {
       packages.x86_64-linux.default = defaultPackage;
