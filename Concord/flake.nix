@@ -78,7 +78,7 @@
           unpackPhase = ":";
           installPhase = ''
             mkdir -p $out/bin
-            ln -s ${virtualEnv}/bin/python $out/bin/condord_python
+            ln -s ${virtualEnv}/bin/python $out/bin/concord_python
           '';
         };
     in
