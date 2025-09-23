@@ -222,6 +222,46 @@
           runHook postBuild
         '';
       };
+      src_ensembl = pkgs.fetchurl {
+        name = "ensembl_src";
+        url = "https://github.com/Ensembl/ensembl/archive/release/106.zip";
+        sha256 = "sha256-TlrJSEBwXJV8EIu5t9hG/HAPxn1RUnwQvylHzzfQZpI=";
+      };
+      src_ensembl_sub = pkgs.fetchurl {
+        name = "ensembl_sub";
+        url = "https://api.github.com/repos/Ensembl/ensembl/commits?sha=release/106";
+        sha256 = "sha256-p2DfWIYcmZzz/bp29rL20fN9TefIdds94mLVxUevKt4=";
+      };
+      src_ensembl_variation = pkgs.fetchurl {
+        name = "ensembl_variation_src";
+        url = "https://github.com/Ensembl/ensembl-variation/archive/release/106.zip";
+        sha256 = "sha256-ieaZESEab7myPSdA1/4Q8ce5RW9NuVhJT/LWiOM042s=";
+      };
+      src_ensembl_variation_sub = pkgs.fetchurl {
+        name = "ensembl_variation_sub";
+        url = "https://api.github.com/repos/Ensembl/ensembl-variation/commits?sha=release/106";
+        sha256 = "sha256-LD1uEr7jEjH8+0zARsnmyspuGh2g6z3uEFqqi3NoANk=";
+      };
+      src_ensembl_funcgen = pkgs.fetchurl {
+        name = "ensembl_funcgen_src";
+        url = "https://github.com/Ensembl/ensembl-funcgen/archive/release/106.zip";
+        sha256 = "sha256-GWAQZ/WBUvkhejo9wnVjmxtWRm2A2zGiaJL0yPihMk8=";
+      };
+      src_ensembl_funcgen_sub = pkgs.fetchurl {
+        name = "ensembl_funcgen_sub";
+        url = "https://api.github.com/repos/Ensembl/ensembl-funcgen/commits?sha=release/106";
+        sha256 = "sha256-7MaVWjuLks2T1mQ9o2xDV+DM+3eOSMb++aVi2bza86M=";
+      };
+      src_ensembl_io = pkgs.fetchurl {
+        name = "ensembl_io_src";
+        url = "https://github.com/Ensembl/ensembl-io/archive/release/106.zip";
+        sha256 = "sha256-UEU7ugv+5Mg43Wf1hXUwBzAGkCRRsLK45pa1QGIYAwE=";
+      };
+      src_ensembl_io_sub = pkgs.fetchurl {
+        name = "ensembl_io_sub";
+        url = "https://api.github.com/repos/Ensembl/ensembl-io/commits?sha=release/106";
+        sha256 = "sha256-hA2y0WdWYlw7uSB4OxK9A5iBzY7KAR3UqA8olrB3YAE=";
+      };
     in
       pkgs.perl534Packages.buildPerlModule rec {
         pname = "ensembl-vep";
@@ -232,41 +272,9 @@
           rev = "316682594c11101535882b29983e07cd2cb53420";
           sha256 = "sha256-lyRt3cqsHdCFBeAdj9wgXorxi/7h1jgVX1cDWyePoBk=";
         };
-        src_ensembl = pkgs.fetchurl {
-          url = "https://github.com/Ensembl/ensembl/archive/release/106.zip";
-          sha256 = "sha256-TlrJSEBwXJV8EIu5t9hG/HAPxn1RUnwQvylHzzfQZpI=";
-        };
-        src_ensembl_sub = pkgs.fetchurl {
-          url = "https://api.github.com/repos/Ensembl/ensembl/commits?sha=release/106";
-          sha256 = "sha256-p2DfWIYcmZzz/bp29rL20fN9TefIdds94mLVxUevKt4=";
-        };
-        src_ensembl_variation = pkgs.fetchurl {
-          url = "https://github.com/Ensembl/ensembl-variation/archive/release/106.zip";
-          sha256 = "sha256-ieaZESEab7myPSdA1/4Q8ce5RW9NuVhJT/LWiOM042s=";
-        };
-        src_ensembl_variation_sub = pkgs.fetchurl {
-          url = "https://api.github.com/repos/Ensembl/ensembl-variation/commits?sha=release/106";
-          sha256 = "sha256-LD1uEr7jEjH8+0zARsnmyspuGh2g6z3uEFqqi3NoANk=";
-        };
-        src_ensembl_funcgen = pkgs.fetchurl {
-          url = "https://github.com/Ensembl/ensembl-funcgen/archive/release/106.zip";
-          sha256 = "sha256-GWAQZ/WBUvkhejo9wnVjmxtWRm2A2zGiaJL0yPihMk8=";
-         };
-         src_ensembl_funcgen_sub = pkgs.fetchurl {
-           url = "https://api.github.com/repos/Ensembl/ensembl-funcgen/commits?sha=release/106";
-           sha256 = "sha256-7MaVWjuLks2T1mQ9o2xDV+DM+3eOSMb++aVi2bza86M=";
-         };
-         src_ensembl_io = pkgs.fetchurl {
-           url ="https://github.com/Ensembl/ensembl-io/archive/release/106.zip";
-           sha256 = "sha256-UEU7ugv+5Mg43Wf1hXUwBzAGkCRRsLK45pa1QGIYAwE=";
-         };
-         src_ensembl_io_sub = pkgs.fetchurl {
-           url = "https://api.github.com/repos/Ensembl/ensembl-io/commits?sha=release/106";
-           sha256 = "sha256-hA2y0WdWYlw7uSB4OxK9A5iBzY7KAR3UqA8olrB3YAE=";
-         };
-         # src_indexd = pkgs.fetchurl {
-         #   url = "http://ftp.ensembl.org/pub/release-106/variation/indexed_vep_cache/homo_sapiens_vep_106_GRCh38.tar.gz";
-         # };
+        # src_indexd = pkgs.fetchurl {
+        #   url = "http://ftp.ensembl.org/pub/release-106/variation/indexed_vep_cache/homo_sapiens_vep_106_GRCh38.tar.gz";
+        # };
 
         nativeBuildInputs = with pkgs; [
           perl
@@ -291,19 +299,28 @@
           BioDBHTS
         ];
         patches = [./install.patch];
-        buildPhase = ''
-          mkdir -p ./Bio/tmp
-          mkdir -p $out/cache/tmp
-          cp ${src_ensembl} ./Bio/tmp/ensembl.zip
-          cp ${src_ensembl_sub} /build/source/pid.ensembl.sub
-          cp ${src_ensembl_variation} ./Bio/tmp/ensembl-variation.zip
-          cp ${src_ensembl_variation_sub} pid.ensembl-variation.sub
-          cp ${src_ensembl_funcgen} ./Bio/tmp/ensembl-funcgen.zip
-          cp ${src_ensembl_funcgen_sub} pid.ensembl-funcgen.sub
-          cp ${src_ensembl_io} ./Bio/tmp/ensembl-io.zip
-          cp ${src_ensembl_io_sub} pid.ensembl-io.sub
-          perl INSTALL.pl --NO_UPDATE  --NO_BIOPERL --NO_HTSLIB --AUTO a -s Homo_sapiens --CACHEDIR $out/cache --ASSEMBLY GRCh38 
-        '';
+        buildPhase =
+          # cp ${src_ensembl_sub} /build/source/pid.ensembl.sub
+          #       cp ${src_ensembl_variation} ./Bio/tmp/ensembl-variation.zip
+          #       cp ${src_ensembl_variation_sub} pid.ensembl-variation.sub
+          #       cp ${src_ensembl_funcgen} ./Bio/tmp/ensembl-funcgen.zip
+          #       cp ${src_ensembl_funcgen_sub} pid.ensembl-funcgen.sub
+          #       cp ${src_ensembl_io} ./Bio/tmp/ensembl-io.zip
+          #       cp ${src_ensembl_io_sub} pid.ensembl-io.sub
+          ''
+            mkdir -p ./Bio/tmp
+            mkdir -p $out/cache/tmp
+            cp ${src_ensembl} ./Bio/tmp/ensembl.zip
+            touch /build/source/pid.ensembl.sub
+            cp ${src_ensembl_variation} ./Bio/tmp/ensembl-variation.zip
+            touch  pid.ensembl-variation.sub
+            cp ${src_ensembl_funcgen} ./Bio/tmp/ensembl-funcgen.zip
+            touch pid.ensembl-funcgen.sub
+            cp ${src_ensembl_io} ./Bio/tmp/ensembl-io.zip
+            touch pid.ensembl-io.sub
+
+            perl INSTALL.pl --NO_UPDATE  --NO_BIOPERL --NO_HTSLIB --AUTO a -s Homo_sapiens --CACHEDIR $out/cache --ASSEMBLY GRCh38
+          '';
         installPhase = ''
           cp * $out -r
         '';
