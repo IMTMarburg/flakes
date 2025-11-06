@@ -12,6 +12,10 @@
       version_hashes = {
         "5.1" = "sha256-q6pqHpqN+QKkI/tAPdLXqFo893BqtK4JnkpM+w5iGxI=";
         "4.11.1" = "sha256-gNHNAGFnKYlAF7JKNqLvgfnN6L02Toda6tHgz7UAyCs=";
+        "4.11" = "sha256-eobaEBkwsrzhpphVoagYHGyIbOv39cwJ3H5ae5V7rEI=";
+        "4.10.4" = "sha256-LOD/fTJCPqVMV7EajcJCafqTMVHmPG9JbTe9upd6j1o=";
+        "4.10.3" = "sha256-PozSMem2pJMpkuBee3gkdg0OKK8SqwRI5zlD31w4ZaU=";
+
       };
 
       configfile = pkgs.writeText "homer-config.txt" ''
@@ -83,6 +87,9 @@
     {
       packages.x86_64-linux.default = homer "5.1";
       packages.x86_64-linux.homer_4-11-1 = homer "4.11.1";
+      packages.x86_64-linux.homer_4-11 = homer "4.11";
+      packages.x86_64-linux.homer_4-10-4 = homer "4.10.4";
+      packages.x86_64-linux.homer_4-10-3 = homer "4.10.3";
 
     };
 }
