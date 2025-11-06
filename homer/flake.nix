@@ -11,6 +11,7 @@
       pkgs = import nixpkgs { system = "x86_64-linux"; };
       version_hashes = {
         "5.1" = "sha256-q6pqHpqN+QKkI/tAPdLXqFo893BqtK4JnkpM+w5iGxI=";
+        "5.0" = "sha256-jyTRgwCAvp6XO625bJ0yyWTjM5dcnoE4t4JoPxSUIXM=";
         "4.11.1" = "sha256-gNHNAGFnKYlAF7JKNqLvgfnN6L02Toda6tHgz7UAyCs=";
         "4.11" = "sha256-eobaEBkwsrzhpphVoagYHGyIbOv39cwJ3H5ae5V7rEI=";
         "4.10.4" = "sha256-LOD/fTJCPqVMV7EajcJCafqTMVHmPG9JbTe9upd6j1o=";
@@ -90,6 +91,7 @@
       packages.x86_64-linux.homer_4-11 = homer "4.11";
       packages.x86_64-linux.homer_4-10-4 = homer "4.10.4";
       packages.x86_64-linux.homer_4-10-3 = homer "4.10.3";
+      packages.x86_64-linux.homer_5_0 = homer "5.0";
 
     };
 }
