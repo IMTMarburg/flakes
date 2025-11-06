@@ -37,7 +37,10 @@ SETTINGS
 
       src = src;
 
-      buildInputs = [ pkgs.unzip pkgs.gnutar  pkgs.gcc  pkgs.stdenv.cc.cc.lib];
+      buildInputs = [ pkgs.unzip pkgs.gnutar  pkgs.gcc  pkgs.stdenv.cc.cc.lib
+          pkgs.perl pkgs.autoconf
+
+        ];
         nativeBuildInputs = [ pkgs.autoPatchelfHook ];
 
       unpackPhase = ''
@@ -47,10 +50,14 @@ SETTINGS
         cp ${configfile} $out/config.txt
       '';
 
+      buildPhase = ''
+          perl $out/configureHomer.pl -make
+          '';
+
       installPhase = ''
           # we need to fix the perl home paths in all the  scripts.
           # use lib "/gpfs/data01/cbenner/software/homer/.//bin";
-          sed -i "s|/gpfs/data01/cbenner/software/homer/|$out/|g" $out/bin/*.pl $out/update/*.pl $out/bin/*.pm $out/bin/old/*.pl $out/cpp/*.cpp
+          #sed -i "s|/gpfs/data01/cbenner/software/homer/|$out/|g" $out/bin/*.pl $out/update/*.pl $out/bin/*.pm $out/bin/old/*.pl $out/cpp/*.cpp
         # No additional installation steps needed as we already unzipped to $out
       '';
 
