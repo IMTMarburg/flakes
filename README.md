@@ -6,10 +6,9 @@ Examples
 # arbitrary STAR version
 ```
 [flakes.star]
-	url = "github:IMTMarburg/flakes?dir=STAR" #https://nixos.wiki/wiki/Flakes#Input_schema - relative paths are tricky
-	rev = "4f5a72327d7add130961a9c1bd089de989b67fac" # flakes.lock tends to update unexpectedly, so we tie it down here
-	follows = ["nixpkgs"]
-	packages = ['star.x86_64-linux "2.7.3a"']
+	url = "github:IMTMarburg/flakes"
+    dir = "STAR" 
+	packages = ['star.x86_64-linux "2.7.11b"'] # leave off for 'newest'
 	# if you receive mismatchin sha-AAAAAAAAA
 	# you need to copy/paste the right value (in the output) into the version map in STAR/flake.nix and commit it.
 ```
