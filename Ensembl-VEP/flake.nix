@@ -322,7 +322,12 @@
             perl INSTALL.pl --NO_UPDATE  --NO_BIOPERL --NO_HTSLIB --AUTO a -s Homo_sapiens --CACHEDIR $out/cache --ASSEMBLY GRCh38
           '';
         installPhase = ''
+          mkdir $out/bin
           cp * $out -r
+          mv $out/vep $out/bin/vep
+          mv $out/filter_vep $out/bin/filter_vep
+          mv $out/haplo $out/bin/haplo
+          mv $out/variant_recoder $out/bin/variant_recoder
         '';
         checkPhase = ":";
         outputs = ["out"];
