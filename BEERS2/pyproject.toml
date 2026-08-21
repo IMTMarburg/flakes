@@ -1,0 +1,11 @@
+[project]
+name = "beres2-wrap"
+version = "1.0"
+description = "RNAseq simulation"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "beers2",
+]
+
+[tool.uv.sources]
+beers2 = { git = "https://github.com/itmat/BEERS2" }
