@@ -291,6 +291,7 @@
           git
           htslib
           samtools
+          makeWrapper
           #bzip2.dev
           #zlib
           #lzma
@@ -322,12 +323,24 @@
             perl INSTALL.pl --NO_UPDATE  --NO_BIOPERL --NO_HTSLIB --AUTO a -s Homo_sapiens --CACHEDIR $out/cache --ASSEMBLY GRCh38
           '';
         installPhase = ''
-          mkdir $out/bin
-          cp * $out -r
+          mkdir -p $out/bin
+
+          cp -r . $out/
+
           mv $out/vep $out/bin/vep
           mv $out/filter_vep $out/bin/filter_vep
           mv $out/haplo $out/bin/haplo
           mv $out/variant_recoder $out/bin/variant_recoder
+
+          # Sammle alle "modules"-Verzeichnisse ein: $out/modules (VEP selbst) +
+          # ensembl, ensembl-variation, ensembl-funcgen, ensembl-io (Core API),
+          # egal wie INSTALL.pl sie genau benannt hat.
+          perl5lib=$(find $out -maxdepth 2 -type d -name modules | paste -sd: -)
+
+          for prog in vep filter_vep haplo variant_recoder; do
+            wrapProgram $out/bin/$prog \
+              --prefix PERL5LIB : "$perl5lib"
+          done
         '';
         checkPhase = ":";
         outputs = ["out"];
