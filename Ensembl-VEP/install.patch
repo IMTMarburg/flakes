@@ -73,10 +73,11 @@ index 93462d6..53155d4 100755
    my $release_url_string = looks_like_number($release) ? 'release/'.$release : $release;
  
    download_to_file(
-@@ -1728,6 +1731,19 @@ sub plugins() {
+@@ -1728,6 +1731,25 @@ sub plugins() {
  sub download_to_file {
    my ($url, $file) = @_;
- 
+
++  print("=== MY VEP PATCH IS ACTIVE ===\n");   
 +  print("url: $url\n");
 +  print("file $file\n");
 +  my $cwd = getcwd;

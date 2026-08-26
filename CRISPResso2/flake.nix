@@ -30,7 +30,7 @@
         sha256 = "sha256-KrYZ7Q2ymWbh4LmQ+Rkg3CIJ3LIL7Mvp1N9ZLSHOdAU=";
       };
 
-      propagatedBuildInputs = with pkgs.python310Packages; [numpy cython jinja2 pyparsing scipy matplotlib pandas plotly setuptools jinja_partials seaborn];
+      propagatedBuildInputs = with pkgs.python310Packages; [numpy cython jinja2 pyparsing scipy matplotlib pandas plotly setuptools jinja_partials seaborn fastp];
       doCheck = false;
       buildInputs = [
         pkgs.bowtie2

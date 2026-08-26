@@ -299,29 +299,46 @@
           perl534Packages.LWP
           BioDBHTS
         ];
-        patches = [./install.patch];
-        buildPhase =
-          # cp ${src_ensembl_sub} /build/source/pid.ensembl.sub
-          #       cp ${src_ensembl_variation} ./Bio/tmp/ensembl-variation.zip
-          #       cp ${src_ensembl_variation_sub} pid.ensembl-variation.sub
-          #       cp ${src_ensembl_funcgen} ./Bio/tmp/ensembl-funcgen.zip
-          #       cp ${src_ensembl_funcgen_sub} pid.ensembl-funcgen.sub
-          #       cp ${src_ensembl_io} ./Bio/tmp/ensembl-io.zip
-          #       cp ${src_ensembl_io_sub} pid.ensembl-io.sub
-          ''
-            mkdir -p ./Bio/tmp
-            mkdir -p $out/cache/tmp
-            cp ${src_ensembl} ./Bio/tmp/ensembl.zip
-            touch /build/source/pid.ensembl.sub
-            cp ${src_ensembl_variation} ./Bio/tmp/ensembl-variation.zip
-            touch  pid.ensembl-variation.sub
-            cp ${src_ensembl_funcgen} ./Bio/tmp/ensembl-funcgen.zip
-            touch pid.ensembl-funcgen.sub
-            cp ${src_ensembl_io} ./Bio/tmp/ensembl-io.zip
-            touch pid.ensembl-io.sub
+        patches = []; #./install.patch];
+        buildPhase = ''
+          mkdir -p ./Bio/tmp
+          mkdir -p $out/cache/tmp
 
-            perl INSTALL.pl --NO_UPDATE  --NO_BIOPERL --NO_HTSLIB --AUTO a -s Homo_sapiens --CACHEDIR $out/cache --ASSEMBLY GRCh38
-          '';
+          cp ${src_ensembl} ./Bio/tmp/ensembl.zip
+          touch ./pid.ensembl.sub
+
+          cp ${src_ensembl_variation} ./Bio/tmp/ensembl-variation.zip
+          touch ./pid.ensembl-variation.sub
+
+          cp ${src_ensembl_funcgen} ./Bio/tmp/ensembl-funcgen.zip
+          touch ./pid.ensembl-funcgen.sub
+
+          cp ${src_ensembl_io} ./Bio/tmp/ensembl-io.zip
+          touch ./pid.ensembl-io.sub
+
+          # Debug: prüfen, was tatsächlich da ist
+          echo "=== BUILD SOURCE ==="
+          pwd
+          find . -maxdepth 3 -type f | sort
+
+          # INSTALL.pl debuggen
+          sed -i '/sub download_to_file {/a\
+          print STDERR "DEBUG download_to_file\\n";\
+          print STDERR "  url: $url\\n";\
+          print STDERR "  file: $file\\n";\
+          print STDERR "  cwd: " . getcwd() . "\\n";\
+          print STDERR "  exists: " . (-e $file ? "YES" : "NO") . "\\n";\
+          ' INSTALL.pl
+          echo "=== INSTALL.pl AROUND download_to_file ==="
+          grep -n -A25 -B5 'sub download_to_file' INSTALL.pl
+          echo "=== PERL SYNTAX CHECK ==="
+          perl -c INSTALL.pl
+          perl INSTALL.pl --NO_UPDATE --NO_BIOPERL --NO_HTSLIB \
+            --AUTO a \
+            -s Homo_sapiens \
+            --CACHEDIR $out/cache \
+            --ASSEMBLY GRCh38
+        '';
         installPhase = ''
           mkdir -p $out/bin
 
