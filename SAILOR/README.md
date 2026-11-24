@@ -1,22 +1,32 @@
 # sailor-flake
 
-Nix build of the SAILOR 1.0.4 Singularity/Apptainer image (YeoLab/sailor,
-commit `9a57b4b`, the `CWL-SINGULARITY-pipeline-building-code/` layout).
+Nix builds of the SAILOR Singularity/Apptainer image (YeoLab/sailor, the
+`CWL-SINGULARITY-pipeline-building-code/` layout), for two releases:
+
+| release | upstream commit | outputs |
+|---|---|---|
+| 1.2.0 (default) | `ac365af` (tag `v1.2.0`) | `sailor-1_2_0`, `sif-1_2_0`, `rootfs-1_2_0` |
+| 1.0.4 | `9a57b4b` | `sailor-1_0_4`, `sif-1_0_4`, `rootfs-1_0_4` |
+
+1.2.0 adds the `ct` / `gt` job options (C>T and G>T edits instead of A>G).
+Both use the same conda envs. Upstream 1.2.0's `bin/sailor` still writes a
+`SAILOR-VERSION.1.0.4` marker file into the job directory; that's upstream.
 
 ```sh
-nix build              # -> result/bin/sailor, runs the image
+nix build                      # -> result/bin/sailor (1.2.0), runs the image
 result/bin/sailor              # usage + offer to copy the example job
 result/bin/sailor job.yaml
 nix run . -- job.yaml          # same thing via the app output
+nix run .#sailor-1_0_4 -- job.yaml
 
-nix build .#sif        # just the SIF
-nix build .#rootfs     # the same tree as a directory (apptainer sandbox / inspection)
+nix build .#sif-1_2_0          # just the SIF
+nix build .#rootfs-1_2_0       # the same tree as a directory (apptainer sandbox / inspection)
 ```
 
 `bin/sailor` runs `singularity run <sif> "$@"`. It uses `singularity` or
 `apptainer` from `PATH` if one is there, and falls back to nixpkgs' apptainer
 otherwise. Set `SAILOR_CONTAINER_RUNTIME` to force a runtime. The SIF is also
-at `result/share/sailor/sailor-1.0.4.sif`.
+at `result/share/sailor/sailor-<version>.sif`.
 
 ## What's in the image
 
@@ -26,7 +36,7 @@ at `result/share/sailor/sailor-1.0.4.sif`.
 | `/opt/tools` | samtools 1.3.1, bcftools 1.2 (conda; newer samtools dropped `mpileup -g` / `rmdup`) |
 | `/opt/sailor/{bin,cwl,py}`, `/documentation` | upstream repo |
 | `/opt/sailor/bin/cwltool` | nixpkgs cwltool (modern, runs the v1.0 workflow) |
-| `/opt/sailor/example` | upstream `tests/data` ce11 files + `example/ce11_example.yaml` |
+| `/opt/sailor/example` | 1.2.0: upstream `example/`; 1.0.4: the same files built from `tests/data` + `example/ce11_example.yaml` |
 | `/bin`, `/usr/bin`, `/nix/store` | bash, coreutils & friends from nixpkgs |
 
 The original `conda_environment.yaml` no longer resolves, so there is no conda

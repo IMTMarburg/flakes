@@ -19,10 +19,11 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
-        "sailor-src": "sailor-src"
+        "sailor-1_0_4": "sailor-1_0_4",
+        "sailor-1_2_0": "sailor-1_2_0"
       }
     },
-    "sailor-src": {
+    "sailor-1_0_4": {
       "flake": false,
       "locked": {
         "lastModified": 1504735613,
@@ -36,6 +37,23 @@
         "owner": "YeoLab",
         "repo": "sailor",
         "rev": "9a57b4b7a62cea9149d99ec3b186dec26cfc315b",
+        "type": "github"
+      }
+    },
+    "sailor-1_2_0": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1582157307,
+        "narHash": "sha256-SLhix7Kqi4rNp4kJNiNDqlX447+KsxDD9Zx1ofryCuY=",
+        "owner": "YeoLab",
+        "repo": "sailor",
+        "rev": "ac365afe919cf9da6ebfd0b748eca9e747e9cb50",
+        "type": "github"
+      },
+      "original": {
+        "owner": "YeoLab",
+        "repo": "sailor",
+        "rev": "ac365afe919cf9da6ebfd0b748eca9e747e9cb50",
         "type": "github"
       }
     }
