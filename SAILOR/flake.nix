@@ -262,7 +262,13 @@
               ];
             }
             ''
-              mksquashfs ${rootfs} rootfs.squashfs \
+              # Store paths are read-only (dr-xr-xr-x). Without FUSE, singularity
+              # unpacks the SIF as the calling user and then has to mkdir inside
+              # and rm the tree afterwards, so the image needs normal u+w modes.
+              cp -a ${rootfs} root
+              chmod -R u+w root
+              chmod 1777 root/tmp root/var/tmp # the store strips these modes too
+              mksquashfs root rootfs.squashfs \
                 -noappend -all-root -no-xattrs -comp gzip \
                 -processors $NIX_BUILD_CORES -quiet
               export HOME=$TMPDIR
