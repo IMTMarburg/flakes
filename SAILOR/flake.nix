@@ -290,7 +290,15 @@
             else
               runtime=${pkgs.apptainer}/bin/apptainer
             fi
-            exec "$runtime" run ${sif} "$@"
+            # When run inside another singularity container, the outer container's
+            # --bind list is visible here as SINGULARITY_BIND (with paths that may not
+            # exist in here) and the nested runtime would try to apply it.
+            unset SINGULARITY_BIND SINGULARITY_BINDPATH APPTAINER_BIND APPTAINER_BINDPATH
+            bind_args=()
+            if [ -d /project ]; then
+              bind_args+=(--bind /project)
+            fi
+            exec "$runtime" run "''${bind_args[@]}" ${sif} "$@"
           '';
 
           sailor = pkgs.runCommand "sailor-${version}" { meta.mainProgram = "sailor"; } ''
