@@ -298,6 +298,9 @@
             if [ -d /project ]; then
               bind_args+=(--bind /project)
             fi
+            if [ -d /machine ]; then
+              bind_args+=(--bind /machine)
+            fi
             exec "$runtime" run "''${bind_args[@]}" ${sif} "$@"
           '';
 
